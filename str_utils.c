@@ -1,0 +1,77 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   str_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/31 13:03:25 by mdorr             #+#    #+#             */
+/*   Updated: 2023/01/31 13:12:23 by mdorr            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "pipex.h"
+
+int	ft_strncmp(char *s1, char *s2, unsigned int n)
+{
+	unsigned int	r;
+
+	r = 0;
+	while (s1[r] != '\0' && s2[r] != '\0' && r < n)
+	{
+		if (s1[r] != s2[r])
+		{
+			return (s1[r] - s2[r]);
+		}
+		r++;
+	}
+	if (r < n)
+	{
+		return (s1[r] - s2[r]);
+	}
+	else
+	{
+		return (0);
+	}
+}
+
+int	ft_strlen(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+char	*trim_path(char *path)
+{
+	char	*trim;
+	int		len;
+	int		i;
+	int		j;
+
+	i = 5;
+	j = 0;
+	len = ft_strlen(path);
+	trim = malloc(sizeof(char) * len - 5);
+	if (trim == NULL)
+		return (NULL);
+	while (path[i])
+		trim[j++] = path[i++];
+	return (trim);
+}
+
+void	print_path(char **path)
+{
+	int	i;
+
+	i = 0;
+	while (ft_strlen(path[i]) != 0)
+	{
+		printf("%s\n", path[i]);
+		i++;
+	}
+	return ;
+}
