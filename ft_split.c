@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 13:08:18 by mdorr             #+#    #+#             */
-/*   Updated: 2023/01/29 16:21:58 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/01 12:50:27 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	count_str(char *str, char *charset)
 	int	i;
 	int	count;
 
+	count = 0;
 	i = 0;
 	while (str[i] != '\0')
 	{
@@ -99,6 +100,9 @@ char	**ft_split(char *str, char *charset)
 		tab[i] = get_word(str, word_len, &j, charset);
 		i++;
 	}
-	tab[i] = '\0';
+	tab[i] = 0;
 	return (tab);
 }
+
+
+

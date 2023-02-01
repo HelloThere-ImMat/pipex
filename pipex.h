@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:09:23 by mdorr             #+#    #+#             */
-/*   Updated: 2023/01/31 13:13:53 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/01 13:04:43 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 
 # include <stdlib.h>
+# include <unistd.h>
 # include <stdio.h>
 //^-To be removed
 
@@ -30,8 +31,15 @@ char	**ft_split(char *str, char *charset);
 
 int		ft_strncmp(char *s1, char *s2, unsigned int n);
 int		ft_strlen(char *str);
+char	*ft_strdup(const char *s);
 char	*trim_path(char *path);
-void	print_path(char **path);
+
+//UTILS
+
+char	**ft_split_arg(int argc, char **argv);
+char 	**get_path(char **env);
+int 	check_arg(int argc, char **argv);
+void	print_tab(char **path);
 
 //PIPEX
 

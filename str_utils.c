@@ -6,11 +6,35 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 13:03:25 by mdorr             #+#    #+#             */
-/*   Updated: 2023/01/31 13:12:23 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/01 13:02:53 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+char	*ft_strdup(const char *s)
+{
+	char	*dest;
+	int		len;
+	int		i;
+
+	len = 0;
+	if (s == NULL)
+		return (NULL);
+	while (s[len])
+		len++;
+	dest = malloc(sizeof(char) * len + 1);
+	if (!dest)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		dest[i] = s[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
 
 int	ft_strncmp(char *s1, char *s2, unsigned int n)
 {
@@ -61,17 +85,4 @@ char	*trim_path(char *path)
 	while (path[i])
 		trim[j++] = path[i++];
 	return (trim);
-}
-
-void	print_path(char **path)
-{
-	int	i;
-
-	i = 0;
-	while (ft_strlen(path[i]) != 0)
-	{
-		printf("%s\n", path[i]);
-		i++;
-	}
-	return ;
 }

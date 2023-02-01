@@ -2,6 +2,7 @@ OBJ_DIR = obj
 
 SRCS	=	ft_split.c \
 			pipex.c \
+			utils.c \
 			str_utils.c
 
 
@@ -20,8 +21,9 @@ ${NAME}: ${OBJS}
 
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(OBJ_DIR)
-	${CC} ${CFLAGS} -c $< -o $@
-
+	${CC} -c $< -o $@
+#        |${CFLAGS}
+#	  REMOVED THE FLAGS
 clean:
 	rm -f ${OBJS} ${BONUS_OBJS}
 
