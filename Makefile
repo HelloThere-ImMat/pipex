@@ -25,10 +25,10 @@ $(OBJ_DIR)/%.o: %.c
 #        |${CFLAGS}
 #	  REMOVED THE FLAGS
 clean:
-	rm -f ${OBJS} ${BONUS_OBJS}
+	rm -f ${OBJS}
 
 fclean: clean
-	rm -f ${NAME} ${BONUS_NAME}
+	rm -f ${NAME}
 
 re: fclean all
 

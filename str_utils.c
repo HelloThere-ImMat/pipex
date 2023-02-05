@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 13:03:25 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/01 13:02:53 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/05 18:29:14 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,12 @@ char	*trim_path(char *path)
 	while (path[i])
 		trim[j++] = path[i++];
 	return (trim);
+}
+
+int	ft_isalpha(int c)
+{
+	if ((c > 64 && c < 91) || (c > 96 && c < 123))
+		return (1);
+	else
+		return (0);
 }

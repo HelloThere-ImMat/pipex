@@ -6,16 +6,16 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:09:23 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/04 13:03:12 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/05 18:29:41 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -24,8 +24,8 @@
 
 typedef struct s_fd
 {
-	int in;
-	int out;
+	int	in;
+	int	out;
 }	t_fd;
 
 
@@ -43,12 +43,13 @@ int		ft_strncmp(char *s1, char *s2, unsigned int n);
 int		ft_strlen(char *str);
 char	*ft_strdup(const char *s);
 char	*trim_path(char *path);
+int		ft_isalpha(int c);
 
 //UTILS
 
-char	**ft_split_arg(int argc, char **argv);
-char 	**get_path(char **env);
-int 	check_arg(int argc, char **argv, t_fd *fd);
+char	***ft_split_arg(int argc, char **argv);
+char	**get_path(char **env);
+int		check_arg(int argc, char **argv, t_fd *fd);
 void	print_tab(char **path);
 
 //PIPEX

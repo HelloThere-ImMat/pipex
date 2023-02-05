@@ -6,54 +6,81 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 00:30:40 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/04 13:04:47 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/05 18:36:24 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int check_arg(int argc, char **argv, t_fd *fd)
+int	check_arg(int argc, char **argv, t_fd *fd)
 {
-
 	if (argc != 5)
 	{
 		printf("arg error\n");
 		return (1);
 	}
 	fd->in = open(argv[1], O_RDONLY);
-	if(fd->in == -1)
+	if (fd->in == -1)
 	{
 		printf("%s no such file or directory\n", argv[1]);
 		return (1);
 	}
-	fd->out = open(argv[5], O_RDWR | O_CREAT);
+	fd->out = open(argv[argc - 1], O_RDWR);
+	if (fd->out == -1)
+	{
+		fd->out = open(argv[argc - 1], O_CREAT | O_RDWR, 0644);
+		if (fd->out == -1)
+		{
+			printf("error while creating file\n");
+			return (1);
+		}
+	}
 	return (0);
 }
 
-char	**ft_split_arg(int argc, char **argv)
+
+char	***ft_split_arg(int argc, char **argv)
 {
+	char	***commands;
 	char	**tab;
 	char	*word;
 	int		i;
 
-	tab = malloc(sizeof(char *) * (argc));
-	if (tab == NULL)
-		return (0);
-	i = 0;
+	commands = malloc(sizeof(char **) * argc - 3);
+	i = 2;
 	while (i < argc - 1)
 	{
-		tab[i] = ft_strdup(argv[i + 1]);
-		if (tab[i] == NULL)
-			return (0);
+		commands[i - 2] = ft_split(argv[i], " ");
 		i++;
 	}
-	tab[i] = 0;
-	return (tab);
+	return (commands);
 }
 
-char **get_path(char **env)
+
+//char	**ft_split_arg(int argc, char **argv)
+//{
+//	char	**tab;
+//	char	*word;
+//	int		i;
+
+//	tab = malloc(sizeof(char *) * (argc));
+//	if (tab == NULL)
+//		return (0);
+//	i = 0;
+//	while (i < argc - 3)
+//	{
+//		tab[i] = ft_strdup(argv[i + 2]);
+//		if (tab[i] == NULL)
+//			return (0);
+//		i++;
+//	}
+//	tab[i] = 0;
+//	return (tab);
+//}
+
+char	**get_path(char **env)
 {
-	int	i;
+	int		i;
 	char	*trimed;
 	char	**path;
 
