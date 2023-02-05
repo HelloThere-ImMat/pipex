@@ -29,3 +29,23 @@ The arguments should be specified as a list of pointers to strings, terminated b
 If the execution of the new process image is successful, the exec function does not return. Instead, the new process image replaces the current process image and starts executing.
 
 If there is an error in executing the new process image, the exec function returns a non-zero value.
+
+
+//
+open: This function is used to open a file and return a file descriptor,
+which is an integer representing the file.
+The file descriptor can be used to perform various operations on the file,
+such as reading or writing.
+
+int fd = open("file.txt", O_RDONLY);
+int fd = open("file.txt", O_RDWR | O_CREAT | O_TRUNC, 0666);
+
+O_RDONLY: Open for reading only.
+O_WRONLY: Open for writing only.
+O_RDWR: Open for reading and writing.
+O_APPEND: Write to the end of the file, appending new data.
+O_TRUNC: Truncate the file to zero length if it exists and is opened for writing.
+Note that oflags can be combined using the bitwise OR operator (|), for example:
+O_CREAT: Create the file if it doesn't exist.
+
+

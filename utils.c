@@ -6,19 +6,27 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 00:30:40 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/01 13:40:37 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/04 13:04:47 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int check_arg(int argc, char **argv)
+int check_arg(int argc, char **argv, t_fd *fd)
 {
+
 	if (argc != 5)
 	{
 		printf("arg error\n");
 		return (1);
 	}
+	fd->in = open(argv[1], O_RDONLY);
+	if(fd->in == -1)
+	{
+		printf("%s no such file or directory\n", argv[1]);
+		return (1);
+	}
+	fd->out = open(argv[5], O_RDWR | O_CREAT);
 	return (0);
 }
 
