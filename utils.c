@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 00:30:40 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/05 18:36:24 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/06 22:56:20 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	check_arg(int argc, char **argv, t_fd *fd)
 	return (0);
 }
 
-
 char	***ft_split_arg(int argc, char **argv)
 {
 	char	***commands;
@@ -55,7 +54,6 @@ char	***ft_split_arg(int argc, char **argv)
 	}
 	return (commands);
 }
-
 
 //char	**ft_split_arg(int argc, char **argv)
 //{

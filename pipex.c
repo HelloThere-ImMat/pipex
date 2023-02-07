@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:00:48 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/05 18:50:45 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/07 00:11:24 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,39 @@
 //   int execv(const char *path, char *const argv[]);
 //   execv("/bin/echo", commands);
 
-int	execute(char **command, char **path, t_fd fd)
+int	first_process(char **command, char **path, int fd, int *end)
+{
+	int	d1;
+	int	d2;
+
+	d1 = dup2(fd, STDIN_FILENO);
+	d2 = dup2(end[1], STDOUT_FILENO);
+	if (d1 < 0 || d2 < 0)
+		return (1);
+	close(end[0]);
+	close(fd);
+	if (execute(command, path, fd) == 1)
+		return (1);
+	return (0);
+}
+
+int	last_process(char **command, char **path, int fd, int *end)
+{
+	int	d1;
+	int	d2;
+
+	d1 = dup2(fd, STDIN_FILENO);
+	d2 = dup2(end[1], STDOUT_FILENO);
+	if (d1 < 0 || d2 < 0)
+		return (1);
+	close(end[0]);
+	close(fd);
+	if (execute(command, path, fd) == 1)
+		return (1);
+	return (0);
+}
+
+int	execute(char **command, char **path, int fd)
 {
 	int	i;
 
@@ -31,6 +63,21 @@ int	execute(char **command, char **path, t_fd fd)
 	return (1);
 }
 
+void	pipex(t_fd fd, char ***command, char **path, int *end)
+{
+	int		end[2];
+	pid_t	parent;
+
+	pipe(end);
+	parent = fork();
+	if (parent < 0)
+		return (perror("Fork Error"));
+	if (!parent)
+		first_process(command[0], path, fd.in, end);
+	else
+		execute(command[1], path, fd.out);
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	char	**path;
@@ -42,12 +89,16 @@ int	main(int argc, char **argv, char **env)
 		return (1);
 	commands = ft_split_arg(argc, argv);
 	path = get_path(env);
+	//print_tab(env);
 	i = 0;
-	while (commands[i])
-	{
-		execute(commands[i], path, fd);
-		i++;
-	}
+	pipex(fd.in, fd.out);
+	// while (commands[i])
+	// {
+	// 	//execute(commands[i], path, fd);
+	// 	printf("---%d---\n", i);
+	// 	print_tab(commands[i]);
+	// 	i++;
+	// }
 	return (0);
 }
 
