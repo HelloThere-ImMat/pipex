@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:09:23 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/05 18:29:41 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/08 16:06:40 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ typedef struct s_fd
 {
 	int	in;
 	int	out;
+	char **env;
 }	t_fd;
-
 
 //FT SPLIT
 
@@ -40,10 +40,14 @@ char	**ft_split(char *str, char *charset);
 //STR UTILS
 
 int		ft_strncmp(char *s1, char *s2, unsigned int n);
-int		ft_strlen(char *str);
+int		ft_strlen(const char *str);
 char	*ft_strdup(const char *s);
 char	*trim_path(char *path);
 int		ft_isalpha(int c);
+
+//STR UTILS
+
+char	*ft_strjoin(const char *s1, const char *s2);
 
 //UTILS
 
@@ -51,9 +55,13 @@ char	***ft_split_arg(int argc, char **argv);
 char	**get_path(char **env);
 int		check_arg(int argc, char **argv, t_fd *fd);
 void	print_tab(char **path);
+void	writestr(int fd, const char *str);
 
 //PIPEX
 
+int		first_process(char **command, char **path, t_fd fd, int *end);
+int		last_process(char **command, char **path, t_fd fd, int *end);
+int		execute(char **command, char **path, char **env);
 int		main(int argc, char **argv, char **env);
 
 #endif

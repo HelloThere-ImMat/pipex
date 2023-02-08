@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 00:30:40 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/06 22:56:20 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/08 15:02:46 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,26 +55,10 @@ char	***ft_split_arg(int argc, char **argv)
 	return (commands);
 }
 
-//char	**ft_split_arg(int argc, char **argv)
-//{
-//	char	**tab;
-//	char	*word;
-//	int		i;
-
-//	tab = malloc(sizeof(char *) * (argc));
-//	if (tab == NULL)
-//		return (0);
-//	i = 0;
-//	while (i < argc - 3)
-//	{
-//		tab[i] = ft_strdup(argv[i + 2]);
-//		if (tab[i] == NULL)
-//			return (0);
-//		i++;
-//	}
-//	tab[i] = 0;
-//	return (tab);
-//}
+void	writestr(int fd, const char *str)
+{
+	write(fd, str, ft_strlen(str));
+}
 
 char	**get_path(char **env)
 {
@@ -91,6 +75,12 @@ char	**get_path(char **env)
 	}
 	trimed = trim_path(env[i]);
 	path = ft_split(trimed, ":");
+	i = 0;
+	while (path[i])
+	{
+		path[i] = ft_strjoin(path[i], "/");
+		i++;
+	}
 	return (path);
 }
 

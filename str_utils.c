@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 13:03:25 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/05 18:29:14 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/07 11:32:13 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ft_strncmp(char *s1, char *s2, unsigned int n)
 	}
 }
 
-int	ft_strlen(char *str)
+int	ft_strlen(const char *str)
 {
 	int	i;
 

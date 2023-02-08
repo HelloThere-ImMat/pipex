@@ -3,7 +3,8 @@ OBJ_DIR = obj
 SRCS	=	ft_split.c \
 			pipex.c \
 			utils.c \
-			str_utils.c
+			str_utils.c \
+			str_utils2.c
 
 
 NAME	=	./pipex
