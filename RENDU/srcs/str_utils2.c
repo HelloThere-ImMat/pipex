@@ -6,13 +6,13 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 14:48:52 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/09 12:09:26 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/09 15:13:09 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../deps/pipex.h"
 
-char	*ft_strjoin(const char *s1, const char *s2)
+char	*ft_strjoin(char *s1, const char *s2)
 {
 	size_t	i;
 	size_t	j;
@@ -36,5 +36,11 @@ char	*ft_strjoin(const char *s1, const char *s2)
 		j++;
 	}
 	dst[i + j] = '\0';
+	free(s1);
 	return (dst);
+}
+
+void	writestr(int fd, const char *str)
+{
+	write(fd, str, ft_strlen(str));
 }

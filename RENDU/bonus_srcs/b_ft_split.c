@@ -6,11 +6,11 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 13:08:18 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/01 12:50:27 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/09 15:12:40 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../deps/pipex.h"
 
 int	char_is_in_charset(char c, char *charset)
 {
@@ -103,6 +103,3 @@ char	**ft_split(char *str, char *charset)
 	tab[i] = 0;
 	return (tab);
 }
-
-
-

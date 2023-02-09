@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   b_pipex.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:00:48 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/09 11:36:12 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/09 16:35:18 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../deps/b_pipex.h"
 
 int	first_process(char **command, char **path, t_fd fd, int *end)
 {
@@ -104,15 +104,21 @@ int	main(int argc, char **argv, char **env)
 	char	**path;
 	char	***commands;
 	t_fd	fd;
-	int		i;
 
 	if (check_arg(argc, argv, &fd) == 1)
 		return (1);
 	fd.env = env;
 	commands = ft_split_arg(argc, argv);
 	path = get_path(env);
+	print_tab(commands[0]);
+	print_tab(commands[1]);
+	print_tab(commands[2]);
 	if (pipex(fd, commands, path) == 1)
+	{
+		free_all(commands, path);
 		return (1);
+	}
+	free_all(commands, path);
 	return (0);
 }
 
@@ -124,8 +130,13 @@ FORMAT :	./pipex infile "ls -l" "wc -l" outfile
 TBD : Heredoc and >>
 	for heredoc
 
-ERRORS LOGS : For now the out file is created with 0
-even if the func does not exist
+ERRORS LOGS :
+	command not found should write the command name
+		Command not found : cato
+			solution : test the commands with the access function before calling pipex
+
+	
+
 
 LEAKS
 

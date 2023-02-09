@@ -6,6 +6,7 @@ SRCS	=	ft_split.c \
 			str_utils.c \
 			str_utils2.c
 
+SRCS_BONUS = 	
 
 NAME	=	./pipex
 

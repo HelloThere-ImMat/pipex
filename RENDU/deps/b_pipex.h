@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:09:23 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/09 12:09:30 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/09 14:26:44 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@
 
 typedef struct s_fd
 {
-	int	in;
-	int	out;
-	char **env;
+	int		in;
+	int		out;
+	char	**env;
 }	t_fd;
 
 //FT SPLIT
@@ -47,7 +47,8 @@ int		ft_isalpha(int c);
 
 //STR UTILS 2
 
-char	*ft_strjoin(const char *s1, const char *s2);
+char	*ft_strjoin(char *s1, const char *s2);
+void	writestr(int fd, const char *str);
 
 //UTILS
 
@@ -55,7 +56,7 @@ char	***ft_split_arg(int argc, char **argv);
 char	**get_path(char **env);
 int		check_arg(int argc, char **argv, t_fd *fd);
 void	print_tab(char **path);
-void	writestr(int fd, const char *str);
+void	free_all(char ***commands, char **path);
 
 //PIPEX
 

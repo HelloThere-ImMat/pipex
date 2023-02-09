@@ -6,11 +6,11 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 13:03:25 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/09 12:15:25 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/09 15:13:02 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../deps/pipex.h"
 
 char	*ft_strdup(const char *s)
 {

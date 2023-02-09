@@ -6,11 +6,35 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 00:30:40 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/09 12:09:49 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/09 15:15:01 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../deps/pipex.h"
+
+void	free_all(char ***commands, char **path)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (commands[i])
+	{
+		j = 0;
+		while (commands[i][j])
+		{
+			free(commands[i][j]);
+			j++;
+		}
+		free(commands[i]);
+		i++;
+	}
+	free(commands);
+	i = 0;
+	while (path[i] && ft_strlen(path[i]) != 0)
+		free(path[i++]);
+	free(path);
+}
 
 int	check_arg(int argc, char **argv, t_fd *fd)
 {
@@ -41,23 +65,17 @@ int	check_arg(int argc, char **argv, t_fd *fd)
 char	***ft_split_arg(int argc, char **argv)
 {
 	char	***commands;
-	char	**tab;
-	char	*word;
 	int		i;
 
-	commands = malloc(sizeof(char **) * argc - 3);
+	commands = malloc(sizeof(char **) * argc - 2);
 	i = 2;
 	while (i < argc - 1)
 	{
 		commands[i - 2] = ft_split(argv[i], " ");
 		i++;
 	}
+	commands[i - 2] = NULL;
 	return (commands);
-}
-
-void	writestr(int fd, const char *str)
-{
-	write(fd, str, ft_strlen(str));
 }
 
 char	**get_path(char **env)
