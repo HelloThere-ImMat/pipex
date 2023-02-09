@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:09:23 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/08 16:06:40 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/09 12:09:30 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*ft_strdup(const char *s);
 char	*trim_path(char *path);
 int		ft_isalpha(int c);
 
-//STR UTILS
+//STR UTILS 2
 
 char	*ft_strjoin(const char *s1, const char *s2);
 

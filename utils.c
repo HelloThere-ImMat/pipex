@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 00:30:40 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/08 15:02:46 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/09 12:09:49 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	check_arg(int argc, char **argv, t_fd *fd)
 		printf("%s no such file or directory\n", argv[1]);
 		return (1);
 	}
-	fd->out = open(argv[argc - 1], O_RDWR);
+	fd->out = open(argv[argc - 1], O_RDWR | O_TRUNC);
 	if (fd->out == -1)
 	{
 		fd->out = open(argv[argc - 1], O_CREAT | O_RDWR, 0644);
@@ -75,6 +75,7 @@ char	**get_path(char **env)
 	}
 	trimed = trim_path(env[i]);
 	path = ft_split(trimed, ":");
+	free(trimed);
 	i = 0;
 	while (path[i])
 	{

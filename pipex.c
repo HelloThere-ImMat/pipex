@@ -6,40 +6,24 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:00:48 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/08 16:10:46 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/09 11:36:12 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-//   int execv(const char *path, char *const argv[]);
-//   execv("/bin/echo", commands);
-
-int	test_first_process(char **command, char **path, t_fd fd)
-{
-	int	d1;
-
-	d1 = dup2(STDIN_FILENO, fd.in);
-	if (d1 < 0)
-		return (1);
-	//close(fd);
-	if (execute(command, path, fd.env) == 1)
-		return (1);
-	close(fd.in);
-	return (0);
-}
-
 
 int	first_process(char **command, char **path, t_fd fd, int *end)
 {
 	int	d1;
 	int	d2;
 
-	//printf("HELLO FROM CHILD\n");
 	d1 = dup2(fd.in, STDIN_FILENO);
 	d2 = dup2(end[1], STDOUT_FILENO);
 	if (d1 < 0 || d2 < 0)
+	{
+		write(2, "Dup error\n", 10);
 		return (1);
+	}
 	close(end[0]);
 	close(fd.in);
 	if (execute(command, path, fd.env) == 1)
@@ -54,12 +38,14 @@ int	last_process(char **command, char **path, t_fd fd, int *end)
 	int		d1;
 	int		d2;
 
-	//printf("HELLO FROM PARENT\n");
 	buf = malloc(sizeof(char));
 	d1 = dup2(end[0], STDIN_FILENO);
 	d2 = dup2(fd.out, STDOUT_FILENO);
 	if (d1 < 0 || d2 < 0)
+	{
+		write(2, "Dup error\n", 10);
 		return (1);
+	}
 	close(end[1]);
 	close(fd.out);
 	if (execute(command, path, fd.env) == 1)
@@ -84,6 +70,7 @@ int	execute(char **command, char **path, char **env)
 		else
 			return (0);
 	}
+	write(2, "Command not found\n", 18);
 	return (1);
 }
 
@@ -96,7 +83,7 @@ int	pipex(t_fd fd, char ***commands, char **path)
 	parent = fork();
 	if (parent < 0)
 	{
-		printf("Fork Error\n");
+		write(2, "Fork Error\n", 11);
 		return (1);
 	}
 	if (!parent)
@@ -124,11 +111,24 @@ int	main(int argc, char **argv, char **env)
 	fd.env = env;
 	commands = ft_split_arg(argc, argv);
 	path = get_path(env);
-	//print_tab(path);
-	//execute(commands[0], path, env);
-	//pipex(fd, commands, path);
-	test_first_process(commands[0], path, fd);
+	if (pipex(fd, commands, path) == 1)
+		return (1);
 	return (0);
 }
 
-//		./pipex infile "ls -l" "wc -l" outfile
+/*
+
+FORMAT :	./pipex infile "ls -l" "wc -l" outfile
+
+
+TBD : Heredoc and >>
+	for heredoc
+
+ERRORS LOGS : For now the out file is created with 0
+even if the func does not exist
+
+LEAKS
+
+
+
+*/

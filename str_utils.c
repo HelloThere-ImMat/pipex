@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 13:03:25 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/07 11:32:13 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/09 12:15:25 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,12 @@ char	*trim_path(char *path)
 	i = 5;
 	j = 0;
 	len = ft_strlen(path);
-	trim = malloc(sizeof(char) * len - 5);
+	trim = malloc(sizeof(char) * len - 4);
 	if (trim == NULL)
 		return (NULL);
 	while (path[i])
 		trim[j++] = path[i++];
+	trim[j] = '\0';
 	return (trim);
 }
 
