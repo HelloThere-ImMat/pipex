@@ -1,11 +1,15 @@
 CC		=	clang
 CFLAGS	=	-Wall -Werror -Wextra
 
+PF_DIR	= printf/
+CFLAGS_PF = -L $(PRINTF_DIR) -lftprintf
+
 SRCS	=	pipex.c \
 			str_utils.c \
 			str_utils2.c \
 			utils.c \
-			ft_split.c
+			ft_split.c \
+			access.c
 SRCS_DIR	= srcs/
 SRCS_PATH	= $(addprefix $(SRCS_DIR), $(SRCS))
 
@@ -45,19 +49,28 @@ all:		$(NAME)
 
 bonus:		$(B_NAME)
 
-$(B_NAME): $(B_OBJS_PATH)
-	@$(CC) $(CFLAGS) $(B_OBJS_PATH) -o $(B_NAME)
+printf:
+	@make -C $(PF_DIR) --no-print-directory
 
-$(NAME): ${OBJS_PATH}
-	@$(CC) $(CFLAGS) $(OBJS_PATH) -o $(NAME)
+$(B_NAME): printf $(B_OBJS_PATH)
+	@$(CC) $(CFLAGS) $(B_OBJS_PATH) $(CFLAGS_PF) -o $(B_NAME)
+
+$(NAME): printf ${OBJS_PATH}
+	@$(CC) $(CFLAGS) $(OBJS_PATH) $(CFLAGS_PF) -o $(NAME)
 
 valgrind : ${OBJS_PATH}
 	@$(CC) $(CFLAGS) $(OBJS_PATH) -o $(NAME).vgr -g
 
-clean:
+clean_printf:
+	@make clean -C $(PF_DIR) --no-print-directory
+
+fclean_printf:
+	@make fclean -C $(PF_DIR) --no-print-directory
+
+clean: clean_printf
 	@rm -rf ${OBJS_DIR} $(B_OBJS_DIR)
 
-fclean:	clean
+fclean:	clean fclean_printf
 	@rm -f ${NAME} $(NAME).vgr $(B_NAME)
 
 re:			fclean all

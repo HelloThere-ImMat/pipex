@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 13:03:25 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/09 15:13:02 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/10 18:14:07 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ft_strncmp(char *s1, char *s2, unsigned int n)
 	}
 }
 
-int	ft_strlen(const char *str)
+int	ft_strlen_p(const char *str)
 {
 	int	i;
 
@@ -78,7 +78,7 @@ char	*trim_path(char *path)
 
 	i = 5;
 	j = 0;
-	len = ft_strlen(path);
+	len = ft_strlen_p(path);
 	trim = malloc(sizeof(char) * len - 4);
 	if (trim == NULL)
 		return (NULL);

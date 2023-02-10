@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:00:48 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/09 16:35:35 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/10 17:20:53 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,12 @@ int	execute(char **command, char **path, char **env)
 	i = 0;
 	while (path[i])
 	{
-		path[i] = ft_strjoin(path[i], command[0]);
+		path[i] = ft_strjoin(path[i], command[0], 1);
 		if (execve(path[i], command, env) == -1)
 			i++;
 		else
 			return (0);
 	}
-	write(2, "Command not found\n", 18);
 	return (1);
 }
 
@@ -110,6 +109,11 @@ int	main(int argc, char **argv, char **env)
 	fd.env = env;
 	commands = ft_split_arg(argc, argv);
 	path = get_path(env);
+	if (access_main(commands, path) == 1)
+	{
+		free_all(commands, path);
+		return (1);
+	}
 	if (pipex(fd, commands, path) == 1)
 	{
 		free_all(commands, path);

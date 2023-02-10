@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 00:30:40 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/09 15:15:01 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/10 18:16:56 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	free_all(char ***commands, char **path)
 	}
 	free(commands);
 	i = 0;
-	while (path[i] && ft_strlen(path[i]) != 0)
+	while (path[i] && ft_strlen_p(path[i]) != 0)
 		free(path[i++]);
 	free(path);
 }
@@ -97,7 +97,7 @@ char	**get_path(char **env)
 	i = 0;
 	while (path[i])
 	{
-		path[i] = ft_strjoin(path[i], "/");
+		path[i] = ft_strjoin(path[i], "/", 1);
 		i++;
 	}
 	return (path);
@@ -108,7 +108,7 @@ void	print_tab(char **path)
 	int	i;
 
 	i = 0;
-	while (path[i] && ft_strlen(path[i]) != 0)
+	while (path[i] && ft_strlen_p(path[i]) != 0)
 	{
 		printf("%s\n", path[i]);
 		i++;
