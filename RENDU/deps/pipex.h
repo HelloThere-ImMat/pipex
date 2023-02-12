@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:09:23 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/10 18:13:37 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/12 14:41:58 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 # define PIPEX_H
 
 # include <sys/types.h>
+# include <sys/wait.h>
 # include <sys/stat.h>
 # include <fcntl.h>
 
-# include "../printf/ft_printf.h"
+# include "../lib/ft_printf.h"
 
 # include <stdlib.h>
 # include <unistd.h>

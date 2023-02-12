@@ -1,61 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   b_pipex.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:00:48 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/12 14:47:35 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/12 16:46:17 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../deps/pipex.h"
-
-int	first_process(char **command, char **path, t_fd fd, int *end)
-{
-	int	d1;
-	int	d2;
-
-	d1 = dup2(fd.in, STDIN_FILENO);
-	d2 = dup2(end[1], STDOUT_FILENO);
-	if (d1 < 0 || d2 < 0)
-	{
-		write(2, "Dup error\n", 10);
-		return (1);
-	}
-	close(end[0]);
-	close(fd.in);
-	if (execute(command, path, fd.env) == 1)
-		return (1);
-	close(end[1]);
-	return (0);
-}
-
-int	last_process(char **command, char **path, t_fd fd, int *end)
-{
-	char	*buf;
-	int		d1;
-	int		d2;
-
-	buf = malloc(sizeof(char));
-	d1 = dup2(end[0], STDIN_FILENO);
-	d2 = dup2(fd.out, STDOUT_FILENO);
-	if (d1 < 0 || d2 < 0)
-	{
-		write(2, "Dup error\n", 10);
-		return (1);
-	}
-	close(end[1]);
-	close(fd.out);
-	if (execute(command, path, fd.env) == 1)
-		return (1);
-	close(end[0]);
-	while (read(end[0], buf, 1) > 0)
-		write(fd.out, &buf, 1);
-	free(buf);
-	return (0);
-}
+#include "../deps/b_pipex.h"
 
 int	execute(char **command, char **path, char **env)
 {
@@ -75,31 +30,52 @@ int	execute(char **command, char **path, char **env)
 
 int	pipex(t_fd fd, char ***commands, char **path)
 {
-	int		end[2];
-	pid_t	pid1;
-	pid_t	pid2;
+	pid_t	*pid;
+	int		i;
 
-	pipe(end);
-	pid1 = fork();
-	pid2 = fork();
-	if (pid1 < 0)
+	i = 0;
+	pid = malloc(sizeof(pid_t) * (fd.cmdnbr - 1));
+	while (i < fd.cmdnbr)
 	{
-		write(2, "Fork Error\n", 11);
-		return (1);
+		pid[i] = fork();
+		if (pid[i] < 0)
+		{
+			write(2, "Fork Error\n", 11);
+			return (1);
+		}
+		i++;
 	}
-	if (!pid1)
+	pipe(fd.end);
+	if (!pid[0])
 	{
-		if (first_process(commands[0], path, fd, end) == 1)
+		if (first_process(commands[0], path, fd) == 1)
 			return (1);
 	}
-	if (!pid2)
+	i = 1;
+	while (!pid[i])
 	{
-		if (last_process(commands[1], path, fd, end) == 1)
+		if (middle_process(commands[0], path, fd) == 1)
+			return (1);
+		i++;
+	}
+	if (!pid[fd.cmdnbr - 1])
+	{
+		if (last_process(commands[fd.cmdnbr - 1], path, fd) == 1)
 			return (1);
 	}
-	waitpid(pid1, NULL, 0);
-	waitpid(pid2, NULL, 0);
+	waitpid(pid[0], NULL, 0);
+	waitpid(pid[1], NULL, 0);
 	return (0);
+}
+
+int	get_cmd_nbr(char ***commands)
+{
+	int	i;
+
+	i = 0;
+	while (commands[i])
+		i++;
+	return (i);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -113,6 +89,7 @@ int	main(int argc, char **argv, char **env)
 	fd.env = env;
 	commands = ft_split_arg(argc, argv);
 	path = get_path(env);
+	fd.cmdnbr = get_cmd_nbr(commands);
 	if (access_main(commands, path) == 1)
 	{
 		free_all(commands, path);

@@ -1,8 +1,9 @@
 CC		=	clang
 CFLAGS	=	-Wall -Werror -Wextra
 
-PF_DIR	= printf/
-CFLAGS_PF = -L $(PRINTF_DIR) -lftprintf
+PF_DIR	= lib/
+LIB_NAME	= ftprintf
+CFLAGS_PF = -L $(PF_DIR) -l$(LIB_NAME)
 
 SRCS	=	pipex.c \
 			str_utils.c \
@@ -17,7 +18,9 @@ B_SRCS =	b_pipex.c \
 			b_str_utils.c \
 			b_str_utils2.c \
 			b_utils.c \
-			b_ft_split.c
+			b_ft_split.c \
+			b_access.c \
+			b_processes.c
 B_SRCS_DIR	= bonus_srcs/
 B_SRCS_PATH	= $(addprefix $(SRCS_B_DIR), $(SRCS))
 
@@ -37,11 +40,11 @@ B_OBJS		=	$(B_SRCS:.c=.o)
 B_OBJS_DIR	=	bonus_objs/
 B_OBJS_PATH	=	$(addprefix $(B_OBJS_DIR), $(B_OBJS))
 
-$(OBJS_DIR)%.o:	$(SRCS_DIR)%.c $(DEPS_PATH)
+$(OBJS_DIR)%.o:	$(SRCS_DIR)%.c $(DEPS_PATH) ./lib/libftprintf.a
 		@mkdir -p $(OBJS_DIR)
 		@${CC} $(CFLAGS) -c $< -o $@
 
-$(B_OBJS_DIR)%.o: $(B_SRCS_DIR)%.c $(DEPS_PATH)
+$(B_OBJS_DIR)%.o: $(B_SRCS_DIR)%.c $(DEPS_PATH) ./lib/libftprintf.a
 		@mkdir -p $(B_OBJS_DIR)
 		@${CC} $(CFLAGS) -c $< -o $@
 
