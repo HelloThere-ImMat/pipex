@@ -22,7 +22,7 @@ B_SRCS =	b_pipex.c \
 			b_access.c \
 			b_processes.c
 B_SRCS_DIR	= bonus_srcs/
-B_SRCS_PATH	= $(addprefix $(SRCS_B_DIR), $(SRCS))
+B_SRCS_PATH	= $(addprefix $(SRCS_B_DIR), $(B_SRCS))
 
 NAME	=	pipex
 B_NAME	=	pipex_bonus
@@ -41,40 +41,40 @@ B_OBJS_DIR	=	bonus_objs/
 B_OBJS_PATH	=	$(addprefix $(B_OBJS_DIR), $(B_OBJS))
 
 $(OBJS_DIR)%.o:	$(SRCS_DIR)%.c $(DEPS_PATH) ./lib/libftprintf.a
-		@mkdir -p $(OBJS_DIR)
-		@${CC} $(CFLAGS) -c $< -o $@
+		mkdir -p $(OBJS_DIR)
+		${CC} $(CFLAGS) -c $< -o $@
 
 $(B_OBJS_DIR)%.o: $(B_SRCS_DIR)%.c $(DEPS_PATH) ./lib/libftprintf.a
-		@mkdir -p $(B_OBJS_DIR)
-		@${CC} $(CFLAGS) -c $< -o $@
+		mkdir -p $(B_OBJS_DIR)
+		${CC} $(CFLAGS) -c $< -o $@
 
 all:		$(NAME)
 
 bonus:		$(B_NAME)
 
 printf:
-	@make -C $(PF_DIR) --no-print-directory
+	make -C $(PF_DIR) --no-print-directory
 
 $(B_NAME): printf $(B_OBJS_PATH)
-	@$(CC) $(CFLAGS) $(B_OBJS_PATH) $(CFLAGS_PF) -o $(B_NAME)
+	$(CC) $(CFLAGS) $(B_OBJS_PATH) $(CFLAGS_PF) -o $(B_NAME)
 
 $(NAME): printf ${OBJS_PATH}
-	@$(CC) $(CFLAGS) $(OBJS_PATH) $(CFLAGS_PF) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS_PATH) $(CFLAGS_PF) -o $(NAME)
 
 valgrind : ${OBJS_PATH}
-	@$(CC) $(CFLAGS) $(OBJS_PATH) -o $(NAME).vgr -g
+	$(CC) $(CFLAGS) $(OBJS_PATH) -o $(NAME).vgr -g
 
 clean_printf:
-	@make clean -C $(PF_DIR) --no-print-directory
+	make clean -C $(PF_DIR) --no-print-directory
 
 fclean_printf:
-	@make fclean -C $(PF_DIR) --no-print-directory
+	make fclean -C $(PF_DIR) --no-print-directory
 
 clean: clean_printf
-	@rm -rf ${OBJS_DIR} $(B_OBJS_DIR)
+	rm -rf ${OBJS_DIR} $(B_OBJS_DIR)
 
 fclean:	clean fclean_printf
-	@rm -f ${NAME} $(NAME).vgr $(B_NAME)
+	rm -f ${NAME} $(NAME).vgr $(B_NAME)
 
 re:			fclean all
 

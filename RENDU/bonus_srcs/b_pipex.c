@@ -6,11 +6,32 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:00:48 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/12 16:46:17 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/15 12:05:11 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../deps/b_pipex.h"
+
+int	init_fork(t_fd fd, pid_t **pid)
+{
+	int		i;
+
+	i = 0;
+	*pid = malloc(sizeof(pid_t) * (fd.cmdnbr));
+	while (i < fd.cmdnbr)
+	{
+		*pid[i] = fork();
+		if (*pid[i] < 0)
+		{
+			write(2, "Fork Error\n", 11);
+			return (1);
+		}
+		if (pid[i] == 0)
+			return (0);
+		i++;
+	}
+	return (0);
+}
 
 int	execute(char **command, char **path, char **env)
 {
@@ -23,7 +44,7 @@ int	execute(char **command, char **path, char **env)
 		if (execve(path[i], command, env) == -1)
 			i++;
 		else
-			return (0);
+			printf("Salut\n");
 	}
 	return (1);
 }
@@ -33,38 +54,27 @@ int	pipex(t_fd fd, char ***commands, char **path)
 	pid_t	*pid;
 	int		i;
 
-	i = 0;
-	pid = malloc(sizeof(pid_t) * (fd.cmdnbr - 1));
-	while (i < fd.cmdnbr)
-	{
-		pid[i] = fork();
-		if (pid[i] < 0)
-		{
-			write(2, "Fork Error\n", 11);
-			return (1);
-		}
-		i++;
-	}
-	pipe(fd.end);
-	if (!pid[0])
+	if (init_fork(fd, &pid) == 1)
+		return (1);
+	if (pid[0] == 0)
 	{
 		if (first_process(commands[0], path, fd) == 1)
 			return (1);
 	}
 	i = 1;
-	while (!pid[i])
+	while (i < fd.cmdnbr - 1)
 	{
-		if (middle_process(commands[0], path, fd) == 1)
-			return (1);
-		i++;
+		if (pid[i] == 0)
+		{
+			if (middle_process(commands[i], path, fd) == 1)
+				return (1);
+		}
 	}
-	if (!pid[fd.cmdnbr - 1])
+	if (pid[fd.cmdnbr] == 0)
 	{
 		if (last_process(commands[fd.cmdnbr - 1], path, fd) == 1)
 			return (1);
 	}
-	waitpid(pid[0], NULL, 0);
-	waitpid(pid[1], NULL, 0);
 	return (0);
 }
 

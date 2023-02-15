@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:09:23 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/12 14:41:58 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/15 14:43:11 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ int		test_access(char **path, char **command);
 
 //PIPEX
 
-int		first_process(char **command, char **path, t_fd fd, int *end);
-int		last_process(char **command, char **path, t_fd fd, int *end);
+int		first_process(char **command, char **path, t_fd fd, int end[2]);
+int		last_process(char **command, char **path, t_fd fd, int end[2]);
 int		execute(char **command, char **path, char **env);
 int		main(int argc, char **argv, char **env);
 

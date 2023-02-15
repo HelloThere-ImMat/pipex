@@ -6,33 +6,36 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:00:48 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/12 14:47:35 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/15 16:35:06 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../deps/pipex.h"
 
-int	first_process(char **command, char **path, t_fd fd, int *end)
+int	first_process(char **command, char **path, t_fd fd, int end[2])
 {
 	int	d1;
-	int	d2;
+	//int	d2;
 
+
+	(void)end;
 	d1 = dup2(fd.in, STDIN_FILENO);
-	d2 = dup2(end[1], STDOUT_FILENO);
-	if (d1 < 0 || d2 < 0)
+	printf("D1 is %d\n", d1);
+//	d2 = dup2(fd.out, STDOUT_FILENO);
+	if (d1 < 0)
 	{
 		write(2, "Dup error\n", 10);
 		return (1);
 	}
-	close(end[0]);
-	close(fd.in);
+//	close(end[0]);
+//	close(fd.in);
 	if (execute(command, path, fd.env) == 1)
 		return (1);
 	close(end[1]);
 	return (0);
 }
 
-int	last_process(char **command, char **path, t_fd fd, int *end)
+int	last_process(char **command, char **path, t_fd fd, int end[2])
 {
 	char	*buf;
 	int		d1;
@@ -51,8 +54,8 @@ int	last_process(char **command, char **path, t_fd fd, int *end)
 	if (execute(command, path, fd.env) == 1)
 		return (1);
 	close(end[0]);
-	while (read(end[0], buf, 1) > 0)
-		write(fd.out, &buf, 1);
+	//while (read(end[0], buf, 1) > 0)
+	//	write(fd.out, &buf, 1);
 	free(buf);
 	return (0);
 }
@@ -118,11 +121,13 @@ int	main(int argc, char **argv, char **env)
 		free_all(commands, path);
 		return (1);
 	}
-	if (pipex(fd, commands, path) == 1)
-	{
-		free_all(commands, path);
-		return (1);
-	}
+	first_process(commands[0], path, fd, NULL);
+	//last_process(commands[1], path, fd, NULL);
+	//if (pipex(fd, commands, path) == 1)
+	//{
+	//	free_all(commands, path);
+	//	return (1);
+	//}
 	free_all(commands, path);
 	return (0);
 }

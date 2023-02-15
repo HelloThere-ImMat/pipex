@@ -6,7 +6,7 @@
 #    By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/23 17:32:29 by mdorr             #+#    #+#              #
-#    Updated: 2023/02/12 12:01:05 by mdorr            ###   ########.fr        #
+#    Updated: 2023/02/15 14:15:56 by mdorr            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,22 +30,22 @@ CFLAGS	= 	-Wall -Wextra -Werror -I
 
 .c.o:
 
-		@${CC} ${CFLAGS} ${HEADERS} -c $< -o ${<:.c=.o}
+		${CC} ${CFLAGS} ${HEADERS} -c $< -o ${<:.c=.o}
 
 
 ${NAME}:	${OBJS}
-		@ar rc ${NAME} ${OBJS}
+		ar rc ${NAME} ${OBJS}
 
 
 all:	${NAME}
 
 
 clean:
-		@rm -f ${OBJS}
+		rm -f ${OBJS}
 
 
 fclean:	clean
-		@rm -f ${NAME}
+		rm -f ${NAME}
 
 
 re:	fclean all

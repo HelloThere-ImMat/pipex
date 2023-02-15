@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 00:30:40 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/10 18:16:56 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/15 16:19:56 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	check_arg(int argc, char **argv, t_fd *fd)
 			return (1);
 		}
 	}
+	//close(fd->in);
+	//close(fd->out);
 	return (0);
 }
 
