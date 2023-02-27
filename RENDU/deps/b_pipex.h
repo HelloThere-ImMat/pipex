@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:09:23 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/27 13:57:45 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/27 15:59:57 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <fcntl.h>
 
 # include "../lib/ft_printf.h"
+# include "./get_next_line.h"
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -55,6 +56,7 @@ int		ft_isalpha(int c);
 
 //STR UTILS 2
 
+int		check_files(char *in, char *out, t_data *data, int heredoc);
 char	*ft_strjoin(char *s1, const char *s2, int must_free);
 void	writestr(int fd, const char *str);
 
@@ -69,7 +71,9 @@ char	***ft_split_arg(int argc, char **argv);
 char	**get_path(char **env);
 void	print_tab(char **path);
 
+//HERE DOC
 
+int		heredoc_main(int argc, char **argv, t_data *data);
 //PROCESSES
 
 int		first_child(char **command, char **path, t_data fd);

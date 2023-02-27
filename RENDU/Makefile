@@ -22,7 +22,10 @@ B_SRCS =	b_pipex.c \
 			b_utils2.c \
 			b_ft_split.c \
 			b_access.c \
-			b_processes.c
+			b_processes.c \
+			b_here_doc.c \
+			get_next_line.c \
+			get_next_line_utils.c
 B_SRCS_DIR	= bonus_srcs/
 B_SRCS_PATH	= $(addprefix $(SRCS_B_DIR), $(B_SRCS))
 
@@ -30,7 +33,8 @@ NAME	=	pipex
 B_NAME	=	pipex_bonus
 
 DEPS	=	pipex.h \
-			b_pipex.h
+			b_pipex.h \
+			get_next_line.h
 DEPS_DIR	= deps/
 DEPS_PATH	= $(addprefix $(DEPS_DIR), $(DEPS))
 

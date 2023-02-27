@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 00:30:40 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/27 13:56:58 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/27 14:41:18 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,34 +36,44 @@ void	free_all(char ***commands, char **path)
 	free(path);
 }
 
-int	check_arg(int argc, char **argv, t_data *data)
+int	check_files(char *in, char *out, t_data *data, int heredoc)
 {
-	if (argc < 5)
+	if (heredoc == 0)
 	{
-		ft_printf("Arg error\n");
-		return (1);
-	}
-	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
-	{
-		if (ft_heredoc() == 1)
+		data->in = open(in, O_RDONLY);
+		if (data->in == -1)
+		{
+			ft_printf("%s no such file or directory\n", in);
 			return (1);
-		return (0);
+		}
 	}
-	data->in = open(argv[1], O_RDONLY);
-	if (data->in == -1)
-	{
-		ft_printf("%s no such file or directory\n", argv[1]);
-		return (1);
-	}
-	data->out = open(argv[argc - 1], O_RDWR | O_TRUNC);
+	data->out = open(out, O_RDWR | O_TRUNC);
 	if (data->out == -1)
 	{
-		data->out = open(argv[argc - 1], O_CREAT | O_RDWR, 0644);
+		data->out = open(out, O_CREAT | O_RDWR, 0644);
 		if (data->out == -1)
 		{
 			ft_printf("error while creating file\n");
 			return (1);
 		}
 	}
+	return (0);
+}
+
+int	check_arg(int argc, char **argv, t_data *data)
+{
+	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
+	{
+		if (heredoc_main(argc, argv, data) == 1)
+			return (1);
+		return (2);
+	}
+	if (argc < 5)
+	{
+		ft_printf("Arg error\n");
+		return (1);
+	}
+	if (check_files(argv[1], argv[argc - 1], data, 0) == 1)
+		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:00:48 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/27 11:58:01 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/27 14:39:13 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,9 @@ int	main(int argc, char **argv, char **env)
 	char	***commands;
 	t_data	data;
 
-	if (check_arg(argc, argv, &data) == 1)
-		return (1);
 	data.env = env;
+	if (check_arg(argc, argv, &data) == 1 || check_arg(argc, argv, &data) == 2)
+		return (1);
 	commands = ft_split_arg(argc, argv);
 	path = get_path(env);
 	data.cmdnbr = get_cmd_nbr(commands);
@@ -117,6 +117,7 @@ FORMAT :	./pipex infile "ls -l" "wc -l" outfile
 
 TBD : Heredoc and >>
 	for heredoc
+		we have to change the split arg as it is different for the heredoc
 
 ERRORS LOGS :
 
