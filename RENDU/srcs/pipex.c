@@ -6,102 +6,93 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:00:48 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/15 16:35:06 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/27 11:26:51 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../deps/pipex.h"
 
-int	first_process(char **command, char **path, t_fd fd, int end[2])
+int	first_child(char **command, char **path, t_data data, int end[2])
 {
 	int	d1;
-	//int	d2;
+	int	d2;
 
-
-	(void)end;
-	d1 = dup2(fd.in, STDIN_FILENO);
-	printf("D1 is %d\n", d1);
-//	d2 = dup2(fd.out, STDOUT_FILENO);
-	if (d1 < 0)
+	d1 = dup2(data.in, STDIN_FILENO);
+	d2 = dup2(end[1], STDOUT_FILENO);
+	if (d1 < 0 || d2 < 0)
 	{
 		write(2, "Dup error\n", 10);
 		return (1);
 	}
-//	close(end[0]);
-//	close(fd.in);
-	if (execute(command, path, fd.env) == 1)
+	close(end[0]);
+	if (execute(command, path, data.env) == 1)
 		return (1);
-	close(end[1]);
 	return (0);
 }
 
-int	last_process(char **command, char **path, t_fd fd, int end[2])
+int	last_child(char **command, char **path, t_data data, int end[2])
 {
-	char	*buf;
 	int		d1;
 	int		d2;
 
-	buf = malloc(sizeof(char));
 	d1 = dup2(end[0], STDIN_FILENO);
-	d2 = dup2(fd.out, STDOUT_FILENO);
+	d2 = dup2(data.out, STDOUT_FILENO);
 	if (d1 < 0 || d2 < 0)
 	{
 		write(2, "Dup error\n", 10);
 		return (1);
 	}
 	close(end[1]);
-	close(fd.out);
-	if (execute(command, path, fd.env) == 1)
+	if (execute(command, path, data.env) == 1)
 		return (1);
-	close(end[0]);
-	//while (read(end[0], buf, 1) > 0)
-	//	write(fd.out, &buf, 1);
-	free(buf);
 	return (0);
 }
 
-int	execute(char **command, char **path, char **env)
+pid_t	parent_process(t_data data, char ***commands, char **path, int end[2])
 {
-	int	i;
+	pid_t	t_pid2;
 
-	i = 0;
-	while (path[i])
+
+	t_pid2 = fork();
+	if (t_pid2 < 0)
 	{
-		path[i] = ft_strjoin(path[i], command[0], 1);
-		if (execve(path[i], command, env) == -1)
-			i++;
-		else
-			return (0);
+		write(2, "Fork Error\n", 11);
+		return (-1);
 	}
-	return (1);
+	if (!t_pid2)
+	{
+		waitpid(data.pid1, NULL, 0);
+		if (last_child(commands[1], path, data, end) == 1)
+			return (-1);
+	}
+	return (t_pid2);
+
 }
 
-int	pipex(t_fd fd, char ***commands, char **path)
+int	pipex(t_data data, char ***commands, char **path)
 {
 	int		end[2];
-	pid_t	pid1;
-	pid_t	pid2;
 
 	pipe(end);
-	pid1 = fork();
-	pid2 = fork();
-	if (pid1 < 0)
+	data.pid1 = fork();
+	if (data.pid1 < 0)
 	{
 		write(2, "Fork Error\n", 11);
 		return (1);
 	}
-	if (!pid1)
+	if (!data.pid1)
 	{
-		if (first_process(commands[0], path, fd, end) == 1)
+		if (first_child(commands[0], path, data, end) == 1)
 			return (1);
 	}
-	if (!pid2)
+	if (data.pid1 > 0)
 	{
-		if (last_process(commands[1], path, fd, end) == 1)
+		data.pid2 = parent_process(data, commands, path, end);
+		if (data.pid2 == -1)
 			return (1);
 	}
-	waitpid(pid1, NULL, 0);
-	waitpid(pid2, NULL, 0);
+	if (data.pid1 > 0 && data.pid2 > 0)
+		wait_and_close(data, end);
 	return (0);
 }
 
@@ -109,11 +100,11 @@ int	main(int argc, char **argv, char **env)
 {
 	char	**path;
 	char	***commands;
-	t_fd	fd;
+	t_data	data;
 
-	if (check_arg(argc, argv, &fd) == 1)
+	if (check_arg(argc, argv, &data) == 1)
 		return (1);
-	fd.env = env;
+	data.env = env;
 	commands = ft_split_arg(argc, argv);
 	path = get_path(env);
 	if (access_main(commands, path) == 1)
@@ -121,13 +112,11 @@ int	main(int argc, char **argv, char **env)
 		free_all(commands, path);
 		return (1);
 	}
-	first_process(commands[0], path, fd, NULL);
-	//last_process(commands[1], path, fd, NULL);
-	//if (pipex(fd, commands, path) == 1)
-	//{
-	//	free_all(commands, path);
-	//	return (1);
-	//}
+	if (pipex(data, commands, path) == 1)
+	{
+		free_all(commands, path);
+		return (1);
+	}
 	free_all(commands, path);
 	return (0);
 }
@@ -136,17 +125,13 @@ int	main(int argc, char **argv, char **env)
 
 FORMAT :	./pipex infile "ls -l" "wc -l" outfile
 
+ERROR LOGS :
 
-TBD : Heredoc and >>
-	for heredoc
+	si la command 2 est incorecte n'excecuter que la commande 1
 
-ERRORS LOGS :
-	command not found should write the command name
-		Command not found : cato
-			solution : test the commands with the access function before calling pipex
+	si la command 1 et incorecte, n'excecuter que la commande 2
 
-
-LEAKS
+	et ducoup utiliser /dev/null comme input pour prevenir les bugs
 
 
 

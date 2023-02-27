@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 00:30:40 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/12 14:03:22 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/27 13:56:58 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,82 +36,34 @@ void	free_all(char ***commands, char **path)
 	free(path);
 }
 
-int	check_arg(int argc, char **argv, t_fd *fd)
+int	check_arg(int argc, char **argv, t_data *data)
 {
 	if (argc < 5)
 	{
 		ft_printf("Arg error\n");
 		return (1);
 	}
-	fd->in = open(argv[1], O_RDONLY);
-	if (fd->in == -1)
+	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
+	{
+		if (ft_heredoc() == 1)
+			return (1);
+		return (0);
+	}
+	data->in = open(argv[1], O_RDONLY);
+	if (data->in == -1)
 	{
 		ft_printf("%s no such file or directory\n", argv[1]);
 		return (1);
 	}
-	fd->out = open(argv[argc - 1], O_RDWR | O_TRUNC);
-	if (fd->out == -1)
+	data->out = open(argv[argc - 1], O_RDWR | O_TRUNC);
+	if (data->out == -1)
 	{
-		fd->out = open(argv[argc - 1], O_CREAT | O_RDWR, 0644);
-		if (fd->out == -1)
+		data->out = open(argv[argc - 1], O_CREAT | O_RDWR, 0644);
+		if (data->out == -1)
 		{
 			ft_printf("error while creating file\n");
 			return (1);
 		}
 	}
 	return (0);
-}
-
-char	***ft_split_arg(int argc, char **argv)
-{
-	char	***commands;
-	int		i;
-
-	commands = malloc(sizeof(char **) * argc - 2);
-	i = 2;
-	while (i < argc - 1)
-	{
-		commands[i - 2] = ft_split(argv[i], " ");
-		i++;
-	}
-	commands[i - 2] = NULL;
-	return (commands);
-}
-
-char	**get_path(char **env)
-{
-	int		i;
-	char	*trimed;
-	char	**path;
-
-	i = 0;
-	while (env[i])
-	{
-		if (ft_strncmp("PATH", env[i], 4) == 0)
-			break ;
-		i++;
-	}
-	trimed = trim_path(env[i]);
-	path = ft_split(trimed, ":");
-	free(trimed);
-	i = 0;
-	while (path[i])
-	{
-		path[i] = ft_strjoin(path[i], "/", 1);
-		i++;
-	}
-	return (path);
-}
-
-void	print_tab(char **path)
-{
-	int	i;
-
-	i = 0;
-	while (path[i] && ft_strlen_p(path[i]) != 0)
-	{
-		printf("%s\n", path[i]);
-		i++;
-	}
-	return ;
 }

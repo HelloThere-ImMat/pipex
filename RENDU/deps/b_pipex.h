@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:09:23 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/15 10:53:07 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/27 13:57:45 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <stdio.h>
 //^-To be removed
 
-typedef struct s_fd
+typedef struct s_data
 {
 	int		end[2];
 	int		end2[2];
@@ -33,8 +33,9 @@ typedef struct s_fd
 	int		in;
 	int		out;
 	char	**env;
-
-}	t_fd;
+	pid_t	pid1;
+	pid_t	pid2;
+}	t_data;
 
 //FT SPLIT
 
@@ -59,17 +60,22 @@ void	writestr(int fd, const char *str);
 
 //UTILS
 
+int		check_arg(int argc, char **argv, t_data *fd);
+void	free_all(char ***commands, char **path);
+
+//UTILS 2
+
 char	***ft_split_arg(int argc, char **argv);
 char	**get_path(char **env);
-int		check_arg(int argc, char **argv, t_fd *fd);
 void	print_tab(char **path);
-void	free_all(char ***commands, char **path);
+
 
 //PROCESSES
 
-int		first_process(char **command, char **path, t_fd fd);
-int		middle_process(char **command, char **path, t_fd fd);
-int		last_process(char **command, char **path, t_fd fd);
+int		first_child(char **command, char **path, t_data fd);
+//int		middle_process(char **command, char **path, t_data fd);
+int		last_child(char **command, char **path, t_data fd);
+void	wait_and_close(t_data data);
 
 //ACCESS
 
@@ -80,5 +86,8 @@ int		test_access(char **path, char **command);
 
 int		execute(char **command, char **path, char **env);
 int		main(int argc, char **argv, char **env);
+int		get_cmd_nbr(char ***commands);
+int		pipex(t_data data, char ***commands, char **path);
+pid_t	parent_process(t_data data, char ***commands, char **path);
 
 #endif

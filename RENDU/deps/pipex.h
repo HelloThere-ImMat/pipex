@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:09:23 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/15 14:43:11 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/26 14:04:06 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,14 @@
 # include <stdio.h>
 //^-To be removed
 
-typedef struct s_fd
+typedef struct s_data
 {
 	int		in;
 	int		out;
 	char	**env;
-}	t_fd;
+	pid_t	pid1;
+	pid_t	pid2;
+}	t_data;
 
 //FT SPLIT
 
@@ -51,15 +53,20 @@ int		ft_isalpha(int c);
 //STR UTILS 2
 
 char	*ft_strjoin(char *s1, const char *s2, int must_free);
-void	writestr(int fd, const char *str);
+void	writestr(int data, const char *str);
 
 //UTILS
 
 char	***ft_split_arg(int argc, char **argv);
 char	**get_path(char **env);
-int		check_arg(int argc, char **argv, t_fd *fd);
+int		check_arg(int argc, char **argv, t_data *data);
 void	print_tab(char **path);
 void	free_all(char ***commands, char **path);
+
+//UTILS 2
+
+int		execute(char **command, char **path, char **env);
+void	wait_and_close(t_data data, int end[2]);
 
 //ACCESS
 
@@ -68,9 +75,9 @@ int		test_access(char **path, char **command);
 
 //PIPEX
 
-int		first_process(char **command, char **path, t_fd fd, int end[2]);
-int		last_process(char **command, char **path, t_fd fd, int end[2]);
-int		execute(char **command, char **path, char **env);
+int		first_child(char **command, char **path, t_data data, int end[2]);
+int		last_child(char **command, char **path, t_data data, int end[2]);
+int		pipex(t_data data, char ***commands, char **path);
 int		main(int argc, char **argv, char **env);
 
 #endif

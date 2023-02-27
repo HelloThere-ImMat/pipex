@@ -9,6 +9,7 @@ SRCS	=	pipex.c \
 			str_utils.c \
 			str_utils2.c \
 			utils.c \
+			utils2.c \
 			ft_split.c \
 			access.c
 SRCS_DIR	= srcs/
@@ -18,6 +19,7 @@ B_SRCS =	b_pipex.c \
 			b_str_utils.c \
 			b_str_utils2.c \
 			b_utils.c \
+			b_utils2.c \
 			b_ft_split.c \
 			b_access.c \
 			b_processes.c
