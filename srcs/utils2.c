@@ -6,13 +6,13 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 13:51:33 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/26 14:03:17 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/01 17:14:41 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../deps/pipex.h"
 
-int	execute(char **command, char **path, char **env)
+void	execute(char **command, char **path, char **env)
 {
 	int	i;
 
@@ -22,10 +22,19 @@ int	execute(char **command, char **path, char **env)
 		path[i] = ft_strjoin(path[i], command[0], 1);
 		if (execve(path[i], command, env) == -1)
 			i++;
-		else
-			return (0);
 	}
-	return (1);
+}
+
+void	error(int type, char ***commands, char **path)
+{
+	if (type == 1)
+		write(2, "Fork Error\n", 11);
+	if (type == 2)
+		write(2, "Pipe error\n", 11);
+	if (type == 3)
+		write(2, "Dup error\n", 10);
+	free_all(commands, path);
+	exit(EXIT_FAILURE);
 }
 
 void	wait_and_close(t_data data, int end[2])

@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:09:23 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/27 15:59:57 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/02 17:24:44 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,13 @@
 
 typedef struct s_data
 {
-	int		end[2];
-	int		end2[2];
+	int		**end_tab;
 	int		cmdnbr;
 	int		in;
 	int		out;
+	int		heredoc;
 	char	**env;
-	pid_t	pid1;
-	pid_t	pid2;
+	pid_t	pid;
 }	t_data;
 
 //FT SPLIT
@@ -56,30 +55,43 @@ int		ft_isalpha(int c);
 
 //STR UTILS 2
 
-int		check_files(char *in, char *out, t_data *data, int heredoc);
 char	*ft_strjoin(char *s1, const char *s2, int must_free);
 void	writestr(int fd, const char *str);
 
 //UTILS
 
-int		check_arg(int argc, char **argv, t_data *fd);
 void	free_all(char ***commands, char **path);
+void	print_tab(char **path);
+int		check_files(char *in, char *out, t_data *data, int heredoc);
+int		get_cmd_nbr(char ***commands);
 
 //UTILS 2
 
-char	***ft_split_arg(int argc, char **argv);
 char	**get_path(char **env);
-void	print_tab(char **path);
+void	error(int type, char ***commands, char **path);
+void	create_pipes(t_data *data, char ***commands, char **path);
+int		**init_end_tab(t_data data);
+void	test_read(int fd);
+
+//ARG UTILS
+
+int		check_arg(int argc, char **argv, t_data *fd);
+char	***ft_split_arg(int argc, char **argv);
+int		check_hd_arg(int argc, char **argv, t_data *data);
+char	***ft_split_hd_arg(char **argv);
+char	***ft_split_arg(int argc, char **argv);
 
 //HERE DOC
 
+void	read_and_write(char *limiter, int fd_hd);
+int		ft_heredoc(t_data *data, char *limiter);
 int		heredoc_main(int argc, char **argv, t_data *data);
+
 //PROCESSES
 
-int		first_child(char **command, char **path, t_data fd);
-//int		middle_process(char **command, char **path, t_data fd);
-int		last_child(char **command, char **path, t_data fd);
-void	wait_and_close(t_data data);
+void	child_process(t_data data, char ***commands, char **path, int cmd_i);
+void	sub_dup(int in, int out, char ***commands, char **path);
+void	close_pipes(t_data *data);
 
 //ACCESS
 
@@ -90,8 +102,6 @@ int		test_access(char **path, char **command);
 
 int		execute(char **command, char **path, char **env);
 int		main(int argc, char **argv, char **env);
-int		get_cmd_nbr(char ***commands);
-int		pipex(t_data data, char ***commands, char **path);
-pid_t	parent_process(t_data data, char ***commands, char **path);
+void	pipex_mult(t_data data, char ***commands, char **path);
 
 #endif

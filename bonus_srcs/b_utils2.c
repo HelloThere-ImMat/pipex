@@ -6,27 +6,11 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 13:56:44 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/27 13:57:01 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/02 16:55:02 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../deps/b_pipex.h"
-
-char	***ft_split_arg(int argc, char **argv)
-{
-	char	***commands;
-	int		i;
-
-	commands = malloc(sizeof(char **) * argc - 2);
-	i = 2;
-	while (i < argc - 1)
-	{
-		commands[i - 2] = ft_split(argv[i], " ");
-		i++;
-	}
-	commands[i - 2] = NULL;
-	return (commands);
-}
 
 char	**get_path(char **env)
 {
@@ -53,15 +37,58 @@ char	**get_path(char **env)
 	return (path);
 }
 
-void	print_tab(char **path)
+void	error(int type, char ***commands, char **path)
+{
+	if (type == 1)
+		write(2, "Fork Error\n", 11);
+	if (type == 2)
+		write(2, "Pipe error\n", 11);
+	if (type == 3)
+		write(2, "Dup error\n", 10);
+	if (type == 4)
+		write(2, "Malloc error\n", 13);
+	free_all(commands, path);
+	exit(EXIT_FAILURE);
+}
+
+void	create_pipes(t_data *data, char ***commands, char **path)
 {
 	int	i;
 
 	i = 0;
-	while (path[i] && ft_strlen_p(path[i]) != 0)
+	data->end_tab = init_end_tab(*data);
+	while (i < data->cmdnbr - 1)
 	{
-		printf("%s\n", path[i]);
+		if (pipe(data->end_tab[i]) == -1)
+		{
+			free(data->end_tab);
+			error(2, commands, path);
+		}
 		i++;
 	}
-	return ;
+}
+
+int	**init_end_tab(t_data data)
+{
+	int	**end_tab;
+	int	i;
+
+	i = 0;
+	end_tab = malloc(sizeof(int *) * data.cmdnbr);
+	while (i < data.cmdnbr - 1)
+	{
+		end_tab[i] = malloc(sizeof(int) * 2);
+		i++;
+	}
+	end_tab[i] = NULL;
+	return (end_tab);
+}
+
+void	test_read(int fd)
+{
+	char	*buf;
+
+	buf = malloc(sizeof(char) * 3);
+	read(fd, buf, 3);
+	printf("test read is: %s\n", buf);
 }

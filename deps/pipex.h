@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:09:23 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/27 15:55:07 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/01 17:14:28 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ void	free_all(char ***commands, char **path);
 
 //UTILS 2
 
-int		execute(char **command, char **path, char **env);
+void	execute(char **command, char **path, char **env);
+void	error(int type, char ***commands, char **path);
 void	wait_and_close(t_data data, int end[2]);
 
 //ACCESS
@@ -75,9 +76,9 @@ int		test_access(char **path, char **command);
 
 //PIPEX
 
-int		first_child(char **command, char **path, t_data data, int end[2]);
-int		last_child(char **command, char **path, t_data data, int end[2]);
-int		pipex(t_data data, char ***commands, char **path);
+void	pipex(t_data data, char ***commands, char **path);
+void	parent_process(t_data data, char ***commands, char **path, int end[2]);
+void	child_process(t_data data, char ***commands, char **path, int end[2]);
 int		main(int argc, char **argv, char **env);
 
 #endif

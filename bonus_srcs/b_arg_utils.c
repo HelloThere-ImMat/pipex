@@ -1,69 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   b_utils.c                                          :+:      :+:    :+:   */
+/*   b_arg_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/01 00:30:40 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/27 14:41:18 by mdorr            ###   ########.fr       */
+/*   Created: 2023/02/28 15:17:55 by mdorr             #+#    #+#             */
+/*   Updated: 2023/03/02 15:41:57 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../deps/b_pipex.h"
 
-void	free_all(char ***commands, char **path)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (commands[i])
-	{
-		j = 0;
-		while (commands[i][j])
-		{
-			free(commands[i][j]);
-			j++;
-		}
-		free(commands[i]);
-		i++;
-	}
-	free(commands);
-	i = 0;
-	while (path[i] && ft_strlen_p(path[i]) != 0)
-		free(path[i++]);
-	free(path);
-}
-
-int	check_files(char *in, char *out, t_data *data, int heredoc)
-{
-	if (heredoc == 0)
-	{
-		data->in = open(in, O_RDONLY);
-		if (data->in == -1)
-		{
-			ft_printf("%s no such file or directory\n", in);
-			return (1);
-		}
-	}
-	data->out = open(out, O_RDWR | O_TRUNC);
-	if (data->out == -1)
-	{
-		data->out = open(out, O_CREAT | O_RDWR, 0644);
-		if (data->out == -1)
-		{
-			ft_printf("error while creating file\n");
-			return (1);
-		}
-	}
-	return (0);
-}
-
 int	check_arg(int argc, char **argv, t_data *data)
 {
 	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
 	{
+		data->heredoc = 1;
 		if (heredoc_main(argc, argv, data) == 1)
 			return (1);
 		return (2);
@@ -76,4 +29,40 @@ int	check_arg(int argc, char **argv, t_data *data)
 	if (check_files(argv[1], argv[argc - 1], data, 0) == 1)
 		return (1);
 	return (0);
+}
+
+int	check_hd_arg(int argc, char **argv, t_data *data)
+{
+	if (argc != 6)
+		return (1);
+	if (check_files(NULL, argv[5], data, 1) == 1)
+		return (1);
+	return (0);
+}
+
+char	***ft_split_hd_arg(char **argv)
+{
+	char	***commands;
+
+	commands = malloc(sizeof(char **) * 3);
+	commands[0] = ft_split(argv[3], " ");
+	commands[1] = ft_split(argv[4], " ");
+	commands[2] = NULL;
+	return (commands);
+}
+
+char	***ft_split_arg(int argc, char **argv)
+{
+	char	***commands;
+	int		i;
+
+	commands = malloc(sizeof(char **) * argc - 2);
+	i = 2;
+	while (i < argc - 1)
+	{
+		commands[i - 2] = ft_split(argv[i], " ");
+		i++;
+	}
+	commands[i - 2] = NULL;
+	return (commands);
 }
