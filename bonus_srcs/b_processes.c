@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 18:08:02 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/02 17:24:53 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/03 15:19:32 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,11 @@ void	sub_dup(int in, int out, char ***commands, char **path)
 	int	d1;
 	int	d2;
 
+	write(1, "in dup\n", 7);
 	d1 = dup2(in, STDIN_FILENO);
 	d2 = dup2(out, STDOUT_FILENO);
+	printf("D1 is %d and D2 is %d\n", d1, d2);
+	printf("in est %d et out est %d\n", in, out);
 	if (d1 < 0 || d2 < 0)
 		error(3, commands, path);
 }

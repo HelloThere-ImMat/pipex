@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 14:18:41 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/02 17:24:25 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/03 14:39:43 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,7 @@ int	heredoc_main(int argc, char **argv, t_data *data)
 	commands = ft_split_hd_arg(argv);
 	path = get_path(data->env);
 	data->cmdnbr = get_cmd_nbr(commands);
-	if (access_main(commands, path) == 1)
-	{
-		free_all(commands, path);
-		return (1);
-	}
+	access_main(commands, path);
 	if (ft_heredoc(data, argv[2]) == 1)
 	{
 		free_all(commands, path);

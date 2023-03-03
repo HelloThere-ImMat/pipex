@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:00:48 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/02 17:27:06 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/03 14:37:33 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,7 @@ int	main(int argc, char **argv, char **env)
 	data.env = env;
 	commands = ft_split_arg(argc, argv);
 	path = get_path(env);
-	if (access_main(commands, path) == 1)
-	{
-		free_all(commands, path);
-		return (1);
-	}
+	access_main(commands, path);
 	pipex(data, commands, path);
 	free_all(commands, path);
 	return (0);
