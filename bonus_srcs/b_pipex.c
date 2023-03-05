@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:00:48 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/05 11:51:48 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/05 11:54:17 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,3 @@ int	main(int argc, char **argv, char **env)
 	pipex_mult(data, commands, path);
 	return (0);
 }
-
-
-//ERROR LOG
-
-/*
-
-WE have DUP ERRORS WHEN ONE OF THE COMMANDS IS WRONG, IT IS PROBABLY LINKED
-TO THE COMMANDS TAB AND THE PIPE TAB WHICH SEG FAULTS CF LINE 35
-
-*/
