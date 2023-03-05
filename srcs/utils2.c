@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 13:51:33 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/01 17:14:41 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/05 12:22:27 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,9 @@ void	error(int type, char ***commands, char **path)
 
 void	wait_and_close(t_data data, int end[2])
 {
-	waitpid(data.pid1, NULL, 0);
+	waitpid(-1, NULL, 0);
 	close(end[1]);
 	close(data.in);
-	waitpid(data.pid2, NULL, 0);
 	close(end[0]);
 	close(data.out);
 }
