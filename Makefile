@@ -15,19 +15,19 @@ SRCS	=	pipex.c \
 SRCS_DIR	= srcs/
 SRCS_PATH	= $(addprefix $(SRCS_DIR), $(SRCS))
 
-B_SRCS =	b_pipex.c \
-			b_str_utils.c \
-			b_str_utils2.c \
-			b_utils.c \
-			b_utils2.c \
-			b_arg_utils.c \
-			b_ft_split.c \
-			b_access.c \
-			b_processes.c \
-			b_here_doc.c \
+B_SRCS =	pipex_bonus.c \
+			str_utils_bonus.c \
+			str_utils2_bonus.c \
+			utils_bonus.c \
+			utils2_bonus.c \
+			arg_utils_bonus.c \
+			ft_split_bonus.c \
+			access_bonus.c \
+			processes_bonus.c \
+			here_doc_bonus.c \
 			get_next_line.c \
 			get_next_line_utils.c
-B_SRCS_DIR	= bonus_srcs/
+B_SRCS_DIR	= srcs_bonus/
 B_SRCS_PATH	= $(addprefix $(SRCS_B_DIR), $(B_SRCS))
 
 NAME	=	pipex
