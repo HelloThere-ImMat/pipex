@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   b_utils2.c                                         :+:      :+:    :+:   */
+/*   utils2_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 13:56:44 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/05 11:13:52 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/05 15:27:25 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,4 @@ int	**init_end_tab(t_data data)
 	}
 	end_tab[i] = NULL;
 	return (end_tab);
-}
-
-void	test_read(int fd)
-{
-	char	*buf;
-
-	buf = malloc(sizeof(char) * 3);
-	read(fd, buf, 3);
-	printf("test read is: %s\n", buf);
 }

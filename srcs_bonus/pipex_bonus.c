@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   b_pipex.c                                          :+:      :+:    :+:   */
+/*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:00:48 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/05 11:54:17 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/05 15:41:27 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	free_pipes(t_data data)
 	while (data.end_tab[i])
 		free(data.end_tab[i++]);
 	free(data.end_tab);
+	close(data.in);
+	close(data.out);
 }
 
 void	pipex_mult(t_data data, char ***commands, char **path)

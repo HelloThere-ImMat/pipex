@@ -47,41 +47,44 @@ B_OBJS		=	$(B_SRCS:.c=.o)
 B_OBJS_DIR	=	bonus_objs/
 B_OBJS_PATH	=	$(addprefix $(B_OBJS_DIR), $(B_OBJS))
 
-$(OBJS_DIR)%.o:	$(SRCS_DIR)%.c $(DEPS_PATH) ./lib/libftprintf.a
-		@mkdir -p $(OBJS_DIR)
-		${CC} $(CFLAGS) -c $< -o $@
-
-$(B_OBJS_DIR)%.o: $(B_SRCS_DIR)%.c $(DEPS_PATH) ./lib/libftprintf.a
-		@mkdir -p $(B_OBJS_DIR)
-		${CC} $(CFLAGS) -c $< -o $@
+LIBFTPRINTF = ./lib/libftprintf.a
+MAKEFILE	= Makefile
 
 all:		$(NAME)
 
 bonus:		$(B_NAME)
 
-printf:
-	@make -C $(PF_DIR) --no-print-directory
+$(LIBFTPRINTF):
+	@$(MAKE) -C $(PF_DIR) --no-print-directory
 
-$(B_NAME): printf $(B_OBJS_PATH) $(DEPS_PATH)
+$(B_NAME): $(MAKEFILE) $(LIBFTPRINTF) $(B_OBJS_PATH) $(DEPS_PATH)
 	@$(CC) $(CFLAGS) $(B_OBJS_PATH) $(CFLAGS_PF) -o $(B_NAME)
 
-$(NAME): printf $(OBJS_PATH) $(DEPS_PATH)
+$(NAME): $(MAKEFILE) $(LIBFTPRINTF) $(OBJS_PATH) $(DEPS_PATH)
 	@$(CC) $(CFLAGS) $(OBJS_PATH) $(CFLAGS_PF) -o $(NAME)
+
+$(OBJS_DIR)%.o:	$(SRCS_DIR)%.c $(DEPS_PATH)
+		@mkdir -p $(OBJS_DIR)
+		${CC} $(CFLAGS) -c $< -o $@
+
+$(B_OBJS_DIR)%.o: $(B_SRCS_DIR)%.c $(DEPS_PATH)
+		@mkdir -p $(B_OBJS_DIR)
+		${CC} $(CFLAGS) -c $< -o $@
 
 valgrind : ${OBJS_PATH}
 	$(CC) $(CFLAGS) $(OBJS_PATH) -o $(NAME).vgr -g
 
 clean_printf:
-	@make clean -C $(PF_DIR) --no-print-directory
+	@$(MAKE) clean -C $(PF_DIR) --no-print-directory
 
 fclean_printf:
-	@make fclean -C $(PF_DIR) --no-print-directory
+	@$(MAKE) fclean -C $(PF_DIR) --no-print-directory
 
 clean: clean_printf
-	@rm -rf ${OBJS_DIR} $(B_OBJS_DIR)
+	@$(RM) -rf ${OBJS_DIR} $(B_OBJS_DIR)
 
 fclean:	clean fclean_printf
-	@rm -f ${NAME} $(NAME).vgr $(B_NAME)
+	@$(RM) -f ${NAME} $(NAME).vgr $(B_NAME)
 
 re:			fclean all
 

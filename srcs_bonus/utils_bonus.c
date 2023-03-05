@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   b_utils.c                                          :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 00:30:40 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/05 11:49:59 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/05 15:37:04 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,16 @@ int	check_files(char *in, char *out, t_data *data, int heredoc)
 		data->in = open(in, O_RDONLY);
 		if (data->in == -1)
 		{
-			ft_printf("%s no such file or directory\n", in);
+			if (access(in, F_OK) == 0)
+				ft_printf("%s is not accessible\n", in);
+			else
+				ft_printf("%s no such file or directory\n", in);
 			return (1);
 		}
+		data->out = open(out, O_RDWR | O_TRUNC);
 	}
-	data->out = open(out, O_RDWR | O_TRUNC);
+	else
+		data->out = open(out, O_RDWR | O_APPEND);
 	if (data->out == -1)
 	{
 		data->out = open(out, O_CREAT | O_RDWR, 0644);
@@ -77,7 +82,7 @@ void	print_tab(char **path)
 	i = 0;
 	while (path[i] && ft_strlen_p(path[i]) != 0)
 	{
-		printf("%s\n", path[i]);
+		ft_printf("%s\n", path[i]);
 		i++;
 	}
 	return ;

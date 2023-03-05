@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:09:23 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/01 17:14:28 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/05 15:47:25 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdio.h>
-//^-To be removed
 
 typedef struct s_data
 {

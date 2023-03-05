@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:09:23 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/02 17:24:44 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/05 15:47:14 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdio.h>
-//^-To be removed
 
 typedef struct s_data
 {
@@ -71,7 +69,6 @@ char	**get_path(char **env);
 void	error(int type, char ***commands, char **path);
 void	create_pipes(t_data *data, char ***commands, char **path);
 int		**init_end_tab(t_data data);
-void	test_read(int fd);
 
 //ARG UTILS
 

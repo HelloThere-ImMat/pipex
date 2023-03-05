@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 00:30:40 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/02 15:55:55 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/05 15:48:31 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,16 @@ int	check_arg(int argc, char **argv, t_data *data)
 {
 	if (argc != 5)
 	{
-		printf("arg error\n");
+		ft_printf("arg error\n");
 		return (1);
 	}
 	data->in = open(argv[1], O_RDONLY);
 	if (data->in == -1)
 	{
-		printf("%s no such file or directory\n", argv[1]);
+		if (access(argv[1], F_OK) == 0)
+			ft_printf("%s is not accessible\n", argv[1]);
+		else
+			ft_printf("%s no such file or directory\n", argv[1]);
 		return (1);
 	}
 	data->out = open(argv[argc - 1], O_RDWR | O_TRUNC);
@@ -55,7 +58,7 @@ int	check_arg(int argc, char **argv, t_data *data)
 		data->out = open(argv[argc - 1], O_CREAT | O_RDWR, 0644);
 		if (data->out == -1)
 		{
-			printf("error while creating file\n");
+			ft_printf("error while creating file\n");
 			return (1);
 		}
 	}
@@ -110,7 +113,7 @@ void	print_tab(char **path)
 	i = 0;
 	while (path[i] && ft_strlen_p(path[i]) != 0)
 	{
-		printf("%s\n", path[i]);
+		ft_printf("%s\n", path[i]);
 		i++;
 	}
 	return ;
