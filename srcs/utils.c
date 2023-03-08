@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 00:30:40 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/08 17:16:15 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/08 18:28:27 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	check_arg(int argc, char **argv, t_data *data)
 			ft_printf_fd(2, "%s is not accessible\n", argv[1]);
 		else
 			ft_printf_fd(2, "%s no such file or directory\n", argv[1]);
-		return (1);
+		data->in = open("/dev/null", O_RDONLY);
 	}
 	data->out = open(argv[argc - 1], O_RDWR | O_TRUNC);
 	if (data->out == -1)
