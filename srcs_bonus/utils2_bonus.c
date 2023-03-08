@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 13:56:44 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/05 15:27:25 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/08 14:45:05 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	**get_path(char **env)
 	char	**path;
 
 	i = 0;
+	if (!env[0])
+		return (NULL);
 	while (env[i])
 	{
 		if (ft_strncmp("PATH", env[i], 4) == 0)

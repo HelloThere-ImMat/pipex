@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:09:23 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/08 14:28:11 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/08 14:41:36 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	wait_and_close(t_data data, int end[2]);
 
 int		access_main(char ***commands, char **path);
 int		test_access(char **path, char **command);
+int		test_access_absolute(char **command);
 
 //PIPEX
 

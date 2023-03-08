@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:00:48 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/05 15:41:27 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/08 14:54:04 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ int	execute(char **command, char **path, char **env)
 	int	i;
 
 	i = 0;
+	if (path == NULL || command[0][0] == 47)
+	{
+		execve(command[0], command, NULL);
+		return (0);
+	}
 	while (path[i])
 	{
 		path[i] = ft_strjoin(path[i], command[0], 1);

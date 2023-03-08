@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 15:01:30 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/08 13:01:20 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/08 14:51:45 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	test_access(char **path, char **command)
 	char	*path_str;
 
 	i = 0;
-	if (path == NULL)
+	if (path == NULL || command[0][0] == 47)
 	{
 		test_access_absolute(command);
 		return (0);
