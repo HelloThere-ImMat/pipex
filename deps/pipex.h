@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:09:23 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/08 14:41:36 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/08 17:36:16 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_data
 	int		in;
 	int		out;
 	char	**env;
+	char	**argv;
 	pid_t	pid1;
 	pid_t	pid2;
 }	t_data;
@@ -69,9 +70,9 @@ void	wait_and_close(t_data data, int end[2]);
 
 //ACCESS
 
-int		access_main(char ***commands, char **path);
-int		test_access(char **path, char **command);
-int		test_access_absolute(char **command);
+void	access_main(char ***commands, char **path);
+void	test_access(char **path, char **command);
+void	test_access_absolute(char **command);
 
 //PIPEX
 

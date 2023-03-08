@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 13:40:06 by mdorr             #+#    #+#             */
-/*   Updated: 2022/11/24 15:50:49 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/08 17:15:33 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-int		ft_printf(const char *format, ...);
-void	ft_print_unsigned(unsigned int nb, int *strlen);
-void	print_master(va_list args, const char c, int *strlen);
-void	ft_print_ptr(size_t loc, int *strlen);
-void	ft_print_hex_maj(unsigned int hex, int *strlen);
-void	ft_print_hex_min(unsigned int hex, int *strlen);
-void	ft_print_nbr(int nb, int *strlen);
-void	ft_print_str(char *s, int *strlen);
-void	ft_print_char(char c, int *strlen);
+int		ft_printf_fd(int fd, const char *format, ...);
+void	ft_print_unsigned(int fd, unsigned int nb, int *strlen);
+void	print_master(int fd, va_list args, const char c, int *strlen);
+void	ft_print_ptr(int fd, size_t loc, int *strlen);
+void	ft_print_hex_maj(int fd, unsigned int hex, int *strlen);
+void	ft_print_hex_min(int fd, unsigned int hex, int *strlen);
+void	ft_print_nbr(int fd, int nb, int *strlen);
+void	ft_print_str(int fd, char *s, int *strlen);
+void	ft_print_char(int fd, char c, int *strlen);
 size_t	ft_strlen(const char *str);
 
 #endif

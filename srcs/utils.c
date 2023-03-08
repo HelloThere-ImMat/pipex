@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 00:30:40 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/08 14:31:01 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/08 17:16:15 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,16 @@ int	check_arg(int argc, char **argv, t_data *data)
 {
 	if (argc != 5)
 	{
-		ft_printf("Arg error\n");
+		ft_printf_fd(2, "Arg error\n");
 		return (1);
 	}
 	data->in = open(argv[1], O_RDONLY);
 	if (data->in == -1)
 	{
 		if (access(argv[1], F_OK) == 0)
-			ft_printf("%s is not accessible\n", argv[1]);
+			ft_printf_fd(2, "%s is not accessible\n", argv[1]);
 		else
-			ft_printf("%s no such file or directory\n", argv[1]);
+			ft_printf_fd(2, "%s no such file or directory\n", argv[1]);
 		return (1);
 	}
 	data->out = open(argv[argc - 1], O_RDWR | O_TRUNC);
@@ -60,7 +60,7 @@ int	check_arg(int argc, char **argv, t_data *data)
 		data->out = open(argv[argc - 1], O_CREAT | O_RDWR, 0644);
 		if (data->out == -1)
 		{
-			ft_printf("error while creating file\n");
+			ft_printf_fd(2, "error while creating file\n");
 			return (1);
 		}
 	}
@@ -117,7 +117,7 @@ void	print_tab(char **path)
 	i = 0;
 	while (path[i] && ft_strlen_p(path[i]) != 0)
 	{
-		ft_printf("%s\n", path[i]);
+		ft_printf_fd(1, "%s\n", path[i]);
 		i++;
 	}
 	return ;

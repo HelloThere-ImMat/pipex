@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 17:39:36 by mdorr             #+#    #+#             */
-/*   Updated: 2022/11/24 15:48:13 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/08 17:10:14 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-void	ft_print_char(char c, int *strlen)
+void	ft_print_char(int fd, char c, int *strlen)
 {
 	(*strlen)++;
-	write(1, &c, 1);
+	write(fd, &c, 1);
 }
 
-void	ft_print_str(char *s, int *strlen)
+void	ft_print_str(int fd, char *s, int *strlen)
 {
 	int	i;
 	int	len;
@@ -38,13 +38,13 @@ void	ft_print_str(char *s, int *strlen)
 	i = 0;
 	if (s == NULL)
 	{
-		ft_print_str("(null)", strlen);
+		ft_print_str(fd, "(null)", strlen);
 		return ;
 	}
 	len = ft_strlen(s);
 	while (i < len)
 	{
-		write(1, &s[i], 1);
+		write(fd, &s[i], 1);
 		i++;
 	}
 	*strlen += len;

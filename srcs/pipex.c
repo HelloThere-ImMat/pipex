@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:00:48 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/08 14:33:11 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/08 17:37:00 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	main(int argc, char **argv, char **env)
 	if (check_arg(argc, argv, &data) == 1)
 		return (1);
 	data.env = env;
+	data.argv = argv;
 	commands = ft_split_arg(argc, argv);
 	path = get_path(env);
 	access_main(commands, path);
