@@ -6,11 +6,20 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 15:01:30 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/08 10:26:51 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/08 13:01:20 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../deps/pipex.h"
+
+int	test_access_absolute(char **command)
+{
+	if (access(command[0], X_OK) == 0)
+		return (0);
+	else
+		ft_printf("command not found: %s\n", command[0]);
+	return (0);
+}
 
 int	test_access(char **path, char **command)
 {
@@ -18,6 +27,11 @@ int	test_access(char **path, char **command)
 	char	*path_str;
 
 	i = 0;
+	if (path == NULL)
+	{
+		test_access_absolute(command);
+		return (0);
+	}
 	while (path[i])
 	{
 		path_str = ft_strjoin(path[i], command[0], 0);

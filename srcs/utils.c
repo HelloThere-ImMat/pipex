@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 00:30:40 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/08 10:24:37 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/08 14:31:01 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	free_all(char ***commands, char **path)
 	}
 	free(commands);
 	i = 0;
+	if (path == NULL)
+		return ;
 	while (path[i] && ft_strlen_p(path[i]) != 0)
 		free(path[i++]);
 	free(path);
@@ -88,6 +90,8 @@ char	**get_path(char **env)
 	char	**path;
 
 	i = 0;
+	if (!env[0])
+		return (NULL);
 	while (env[i])
 	{
 		if (ft_strncmp("PATH", env[i], 4) == 0)
