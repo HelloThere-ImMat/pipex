@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 14:18:41 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/08 17:55:48 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/08 18:58:45 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,12 @@ void	read_and_write(char *limiter, int fd_hd)
 	int		len;
 
 	len = ft_strlen(limiter);
+	ft_printf_fd(1, "the limiter is %s\n", limiter);
 	while (1)
 	{
 		write(1, "heredoc> ", 9);
 		line = get_next_line(STDIN_FILENO);
-		if (ft_strncmp(limiter, line, len) == 0)
+		if (ft_strncmp(limiter, line, len + 1) == 0)
 			break ;
 		write(fd_hd, line, ft_strlen(line));
 		free(line);
