@@ -6,48 +6,50 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 15:01:30 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/08 14:53:57 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/08 18:00:53 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../deps/b_pipex.h"
 
-int	test_access_absolute(char **command)
+void	test_access_absolute(char **command)
 {
 	if (access(command[0], X_OK) == 0)
-		return (0);
+		return ;
 	else
-		ft_printf("command not found: %s\n", command[0]);
-	return (0);
+		ft_printf_fd(2, "command not found: %s\n", command[0]);
 }
 
-int	test_access(char **path, char **command)
+void	test_access(char **path, char **command)
 {
 	int		i;
 	char	*path_str;
 
 	i = 0;
+	if (!command[0])
+	{
+		ft_printf_fd(2, "command not found : %s\n", command[0]);
+		return ;
+	}
 	if (path == NULL || command[0][0] == 47)
 	{
 		test_access_absolute(command);
-		return (0);
+		return ;
 	}
 	while (path[i])
 	{
-		path_str = ft_strjoin(path[i], command[0], 0);
+		path_str = ft_strjoin(path[i++], command[0], 0);
 		if (access(path_str, X_OK) == 0)
 		{
 			free(path_str);
-			return (0);
+			return ;
 		}
 		free(path_str);
-		i++;
 	}
-	ft_printf("command not found: %s\n", command[0]);
-	return (1);
+	ft_printf_fd(2, "command not found: %s\n", command[0]);
 }
 
-int	access_main(char ***commands, char **path)
+void	access_main(char ***commands, char **path)
 {
 	int		i;
 
@@ -57,5 +59,4 @@ int	access_main(char ***commands, char **path)
 		test_access(path, commands[i]);
 		i++;
 	}
-	return (0);
 }

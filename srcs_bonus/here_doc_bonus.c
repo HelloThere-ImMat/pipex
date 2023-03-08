@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   b_here_doc.c                                       :+:      :+:    :+:   */
+/*   here_doc_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 14:18:41 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/03 14:39:43 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/08 17:55:48 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_heredoc(t_data *data, char *limiter)
 	if (fd_hd == -1)
 	{
 		unlink(".heredoc_tmp");
-		ft_printf("Error while creating file\n");
+		ft_printf_fd(2, "Error while creating file\n");
 		return (1);
 	}
 	read_and_write(limiter, fd_hd);
@@ -47,7 +47,7 @@ int	ft_heredoc(t_data *data, char *limiter)
 	if (data->in < 0)
 	{
 		unlink(".heredoc_tmp");
-		ft_printf("Error with heredoc file\n");
+		ft_printf_fd(2, "Error with heredoc file\n");
 		return (1);
 	}
 	return (0);

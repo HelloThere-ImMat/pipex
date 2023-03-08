@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 15:17:55 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/08 10:32:47 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/08 17:55:17 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_arg(int argc, char **argv, t_data *data)
 		data->heredoc = 1;
 		if (argc != 6)
 		{
-			ft_printf("Arg error\n");
+			ft_printf_fd(2, "Arg error\n");
 			return (1);
 		}
 		if (heredoc_main(argc, argv, data) == 1)
@@ -28,7 +28,7 @@ int	check_arg(int argc, char **argv, t_data *data)
 	}
 	if (argc < 5)
 	{
-		ft_printf("Arg error\n");
+		ft_printf_fd(2, "Arg error\n");
 		return (1);
 	}
 	if (check_files(argv[1], argv[argc - 1], data, 0) == 1)

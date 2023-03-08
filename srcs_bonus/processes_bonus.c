@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   b_processes.c                                      :+:      :+:    :+:   */
+/*   processes_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 18:08:02 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/05 11:42:31 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/08 18:14:57 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void	child_process(t_data data, char ***commands, char **path, int cmd_i)
 			sub_dup(data.end_tab[cmd_i - 1][0],
 				data.end_tab[cmd_i][1], commands, path);
 		close_pipes(&data);
+		if (!commands[cmd_i][0])
+			return ;
 		execute(commands[cmd_i], path, data.env);
 	}
 }
