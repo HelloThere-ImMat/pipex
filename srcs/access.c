@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 15:01:30 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/03 14:37:48 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/08 10:26:51 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ int	access_main(char ***commands, char **path)
 	i = 0;
 	while (commands[i])
 	{
-		if (test_access(path, commands[i]) == 1)
-			return (1);
+		test_access(path, commands[i]);
 		i++;
 	}
 	return (0);

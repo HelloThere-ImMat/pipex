@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   b_arg_utils.c                                      :+:      :+:    :+:   */
+/*   arg_utils_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 15:17:55 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/02 15:41:57 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/08 10:32:47 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ int	check_arg(int argc, char **argv, t_data *data)
 	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
 	{
 		data->heredoc = 1;
+		if (argc != 6)
+		{
+			ft_printf("Arg error\n");
+			return (1);
+		}
 		if (heredoc_main(argc, argv, data) == 1)
 			return (1);
 		return (2);

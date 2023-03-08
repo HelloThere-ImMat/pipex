@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 00:30:40 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/05 15:48:31 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/08 10:24:37 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	check_arg(int argc, char **argv, t_data *data)
 {
 	if (argc != 5)
 	{
-		ft_printf("arg error\n");
+		ft_printf("Arg error\n");
 		return (1);
 	}
 	data->in = open(argv[1], O_RDONLY);
