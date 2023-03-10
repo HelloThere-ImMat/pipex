@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:00:48 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/10 14:25:07 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/10 14:49:55 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	child_process(t_data data, char ***commands, char **path, int end[2])
 	int	d1;
 	int	d2;
 
+	if (!commands[0][0])
+		error_cmd(data, commands, path, end);
 	d1 = dup2(data.in, STDIN_FILENO);
 	d2 = dup2(end[1], STDOUT_FILENO);
 	if (d1 < 0 || d2 < 0)
@@ -38,6 +40,8 @@ void	parent_process(t_data data, char ***commands, char **path, int end[2])
 	int	d1;
 	int	d2;
 
+	if (!commands[1][0])
+		error_cmd(data, commands, path, end);
 	d1 = dup2(end[0], STDIN_FILENO);
 	d2 = dup2(data.out, STDOUT_FILENO);
 	if (d1 < 0 || d2 < 0)

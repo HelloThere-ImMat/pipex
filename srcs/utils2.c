@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 13:51:33 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/10 14:23:45 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/10 14:47:29 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,15 @@ int	execute(char **command, char **path, char **env)
 			i++;
 	}
 	return (1);
+}
+
+void	error_cmd(t_data data, char ***commands, char **path, int *end)
+{
+	close(data.in);
+	close(data.out);
+	close(end[1]);
+	close(end[0]);
+	error(0, commands, path);
 }
 
 void	error(int type, char ***commands, char **path)
