@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:09:23 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/08 17:36:16 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/10 14:20:55 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	free_all(char ***commands, char **path);
 
 //UTILS 2
 
-void	execute(char **command, char **path, char **env);
+int		execute(char **command, char **path, char **env);
 void	error(int type, char ***commands, char **path);
 void	wait_and_close(t_data data, int end[2]);
 

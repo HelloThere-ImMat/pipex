@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:00:48 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/08 17:50:32 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/10 14:25:07 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,13 @@ void	child_process(t_data data, char ***commands, char **path, int end[2])
 	close(end[0]);
 	if (!commands[0][0])
 		return ;
-	execute(commands[0], path, data.env);
+	if (execute(commands[0], path, data.env) == 1)
+	{
+		close(data.in);
+		close(data.out);
+		close(end[1]);
+		error(0, commands, path);
+	}
 }
 
 void	parent_process(t_data data, char ***commands, char **path, int end[2])
@@ -39,7 +45,13 @@ void	parent_process(t_data data, char ***commands, char **path, int end[2])
 	close(end[1]);
 	if (!commands[1][0])
 		return ;
-	execute(commands[1], path, data.env);
+	if (execute(commands[1], path, data.env) == 1)
+	{
+		close(data.in);
+		close(data.out);
+		close(end[0]);
+		error(0, commands, path);
+	}
 }
 
 void	pipex(t_data data, char ***commands, char **path)

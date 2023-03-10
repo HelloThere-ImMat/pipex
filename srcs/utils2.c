@@ -6,25 +6,29 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 13:51:33 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/08 17:35:35 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/10 14:23:45 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../deps/pipex.h"
 
-void	execute(char **command, char **path, char **env)
+int	execute(char **command, char **path, char **env)
 {
 	int	i;
 
 	i = 0;
 	if (path == NULL || command[0][0] == 47)
+	{
 		execve(command[0], command, NULL);
+		return (0);
+	}
 	while (path[i])
 	{
 		path[i] = ft_strjoin(path[i], command[0], 1);
 		if (execve(path[i], command, env) == -1)
 			i++;
 	}
+	return (1);
 }
 
 void	error(int type, char ***commands, char **path)

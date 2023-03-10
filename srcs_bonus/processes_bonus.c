@@ -1,12 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   processes_bonus.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 18:08:02 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/10 14:00:36 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/10 14:17:04 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +50,10 @@ void	child_process(t_data data, char ***commands, char **path, int cmd_i)
 				data.end_tab[cmd_i][1], commands, path);
 		close_pipes(&data);
 		if (execute(commands[cmd_i], path, data.env) == 1)
+		{
+			close(data.in);
+			close(data.out);
 			error(0, commands, path);
+		}
 	}
 }
