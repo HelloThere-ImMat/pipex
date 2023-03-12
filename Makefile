@@ -11,6 +11,7 @@ SRCS	=	pipex.c \
 			utils.c \
 			utils2.c \
 			ft_split.c \
+			ft_split2.c \
 			access.c
 SRCS_DIR	= srcs/
 SRCS_PATH	= $(addprefix $(SRCS_DIR), $(SRCS))

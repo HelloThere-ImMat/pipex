@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 13:51:33 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/10 14:47:29 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/12 16:33:11 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	error(int type, char ***commands, char **path)
 		write(2, "Pipe error\n", 11);
 	if (type == 3)
 		write(2, "Dup error\n", 10);
+	if (type == 4)
+		write(2, "Malloc error\n", 13);
 	free_all(commands, path);
 	exit(EXIT_FAILURE);
 }
@@ -59,4 +61,33 @@ void	wait_and_close(t_data data, int end[2])
 	close(data.in);
 	close(end[0]);
 	close(data.out);
+}
+
+void	free_all(char ***commands, char **path)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	if (commands)
+	{
+		while (commands[i])
+		{
+			j = 0;
+			while (commands[i][j])
+			{
+				free(commands[i][j]);
+				j++;
+			}
+			free(commands[i]);
+			i++;
+		}
+		free(commands);
+	}
+	i = 0;
+	if (path == NULL)
+		return ;
+	while (path[i] && ft_strlen_p(path[i]) != 0)
+		free(path[i++]);
+	free(path);
 }

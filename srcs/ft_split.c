@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 13:08:18 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/09 15:12:40 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/12 16:10:13 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ char	*get_word(char *str, int len, int *j, char *charset)
 
 	i = 0;
 	word = malloc(sizeof(char) * (len + 1));
+	if (!word)
+		return (NULL);
 	while (char_is_in_charset(str[*j], charset) && str[*j] != '\0')
 		(*j)++;
 	while (!char_is_in_charset(str[*j], charset) && str[*j] != '\0')
@@ -90,15 +92,19 @@ char	**ft_split(char *str, char *charset)
 	str_count = count_str(str, charset);
 	tab = malloc(sizeof(char *) * (str_count + 1));
 	if (tab == NULL)
-		return (0);
+		return (NULL);
 	i = 0;
 	j = 0;
 	while (i < str_count)
 	{
 		word_len = wlength(str, &j, charset);
 		j = j - word_len;
-		tab[i] = get_word(str, word_len, &j, charset);
-		i++;
+		tab[i++] = get_word(str, word_len, &j, charset);
+		if (!tab[i - 1])
+		{
+			error_free(tab, i - 1);
+			return (NULL);
+		}
 	}
 	tab[i] = 0;
 	return (tab);
