@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 15:17:55 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/08 17:55:17 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/14 03:42:56 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,41 @@ int	check_hd_arg(int argc, char **argv, t_data *data)
 char	***ft_split_hd_arg(char **argv)
 {
 	char	***commands;
+	int		i;
 
+	i = 0;
 	commands = malloc(sizeof(char **) * 3);
+	if (!commands)
+		return (NULL);
 	commands[0] = ft_split(argv[3], " ");
+	if (!commands[0])
+		return (NULL);
 	commands[1] = ft_split(argv[4], " ");
+	if (!commands[1])
+	{
+		while (commands[0][i])
+			free(commands[0][i++]);
+		free(commands[0]);
+		return (NULL);
+	}
 	commands[2] = NULL;
 	return (commands);
+}
+
+void	error_big_free(char ***commands, int index)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i > index)
+	{
+		j = 0;
+		while (commands[i][j])
+			free(commands[i][j++]);
+		free(commands[i]);
+	}
+	free(commands);
 }
 
 char	***ft_split_arg(int argc, char **argv)
@@ -62,10 +91,17 @@ char	***ft_split_arg(int argc, char **argv)
 	int		i;
 
 	commands = malloc(sizeof(char **) * argc - 2);
+	if (!commands)
+		return (NULL);
 	i = 2;
 	while (i < argc - 1)
 	{
 		commands[i - 2] = ft_split(argv[i], " ");
+		if (!commands[i - 2])
+		{
+			error_big_free(commands, i - 2);
+			return (NULL);
+		}
 		i++;
 	}
 	commands[i - 2] = NULL;

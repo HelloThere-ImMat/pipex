@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 00:30:40 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/08 18:30:05 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/14 03:43:30 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,20 @@ void	print_tab(char **path)
 		i++;
 	}
 	return ;
+}
+
+int	**init_end_tab(t_data data)
+{
+	int	**end_tab;
+	int	i;
+
+	i = 0;
+	end_tab = malloc(sizeof(int *) * data.cmdnbr);
+	while (i < data.cmdnbr - 1)
+	{
+		end_tab[i] = malloc(sizeof(int) * 2);
+		i++;
+	}
+	end_tab[i] = NULL;
+	return (end_tab);
 }

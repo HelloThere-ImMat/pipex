@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:09:23 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/10 14:00:23 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/14 03:45:39 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,10 @@ int		wlength(char *str, int *j, char *charset);
 char	*get_word(char *str, int len, int *j, char *charset);
 char	**ft_split(char *str, char *charset);
 
+//FT SPLIT 2
+
+void	error_free(char **tab, int index);
+
 //STR UTILS
 
 int		ft_strncmp(char *s1, char *s2, unsigned int n);
@@ -62,13 +66,15 @@ void	free_all(char ***commands, char **path);
 void	print_tab(char **path);
 int		check_files(char *in, char *out, t_data *data, int heredoc);
 int		get_cmd_nbr(char ***commands);
+int		**init_end_tab(t_data data);
 
 //UTILS 2
 
+char	**path_error_free(char **path, int index);
 char	**get_path(char **env);
 void	error(int type, char ***commands, char **path);
 void	create_pipes(t_data *data, char ***commands, char **path);
-int		**init_end_tab(t_data data);
+char	*get_trimed_path(char **env);
 
 //ARG UTILS
 

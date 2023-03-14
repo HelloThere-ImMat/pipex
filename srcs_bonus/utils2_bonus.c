@@ -6,21 +6,32 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 13:56:44 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/10 14:01:05 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/14 03:45:20 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../deps/b_pipex.h"
 
-char	**get_path(char **env)
+char	**path_error_free(char **path, int index)
+{
+	int	i;
+
+	i = 0;
+	while (i < index)
+	{
+		free(path[i]);
+		i++;
+	}
+	free(path);
+	return (NULL);
+}
+
+char	*get_trimed_path(char **env)
 {
 	int		i;
 	char	*trimed;
-	char	**path;
 
 	i = 0;
-	if (!env[0])
-		return (NULL);
 	while (env[i])
 	{
 		if (ft_strncmp("PATH", env[i], 4) == 0)
@@ -28,12 +39,33 @@ char	**get_path(char **env)
 		i++;
 	}
 	trimed = trim_path(env[i]);
+	if (!trimed)
+		return (NULL);
+	return (trimed);
+}
+
+char	**get_path(char **env)
+{
+	int		i;
+	char	*trimed;
+	char	**path;
+
+	if (!env[0])
+		return (NULL);
+	trimed = get_trimed_path(env);
 	path = ft_split(trimed, ":");
+	if (!path)
+		return (NULL);
 	free(trimed);
 	i = 0;
 	while (path[i])
 	{
 		path[i] = ft_strjoin(path[i], "/", 1);
+		if (!path[i])
+		{
+			path = path_error_free(path, i);
+			return (NULL);
+		}
 		i++;
 	}
 	return (path);
@@ -68,20 +100,4 @@ void	create_pipes(t_data *data, char ***commands, char **path)
 		}
 		i++;
 	}
-}
-
-int	**init_end_tab(t_data data)
-{
-	int	**end_tab;
-	int	i;
-
-	i = 0;
-	end_tab = malloc(sizeof(int *) * data.cmdnbr);
-	while (i < data.cmdnbr - 1)
-	{
-		end_tab[i] = malloc(sizeof(int) * 2);
-		i++;
-	}
-	end_tab[i] = NULL;
-	return (end_tab);
 }
