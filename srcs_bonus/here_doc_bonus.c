@@ -6,33 +6,30 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 14:18:41 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/14 03:03:40 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/15 17:10:02 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../deps/b_pipex.h"
 
-void	read_and_write(char *limiter, int fd_hd)
+int	read_and_write(char *limiter, int fd_hd)
 {
 	char	*line;
-	char	*limiter_n;
 	int		len;
 
 	len = ft_strlen(limiter);
-	limiter_n = malloc(sizeof(char) * len + 1);
-	limiter_n = ft_strdup(limiter);
-	limiter_n[len] = 10;
 	while (1)
 	{
 		write(1, "heredoc> ", 9);
-		line = get_next_line(STDIN_FILENO);
-		if (ft_strncmp(limiter_n, line, len + 1) == 0)
+		line = read_input();
+		if (ft_strncmp(limiter, line, len + 1) == 0)
 			break ;
 		write(fd_hd, line, ft_strlen(line));
 		free(line);
 	}
 	free(line);
 	close(fd_hd);
+	return (EXIT_SUCCESS);
 }
 
 int	ft_heredoc(t_data *data, char *limiter)
@@ -46,7 +43,8 @@ int	ft_heredoc(t_data *data, char *limiter)
 		ft_printf_fd(2, "Error while creating file\n");
 		return (1);
 	}
-	read_and_write(limiter, fd_hd);
+	if (read_and_write(limiter, fd_hd) == 1)
+		return (1);
 	data->in = open(".heredoc_tmp", O_RDONLY);
 	if (data->in < 0)
 	{

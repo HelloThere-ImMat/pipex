@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:00:48 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/14 03:01:39 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/15 17:58:15 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	free_pipes(t_data data)
 	int	i;
 
 	i = 0;
-	while (data.end_tab[i])
+	while (i < data.cmdnbr - 1)
 		free(data.end_tab[i++]);
 	free(data.end_tab);
 	close(data.in);

@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:09:23 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/14 03:45:39 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/15 18:04:23 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <fcntl.h>
 
 # include "../lib/ft_printf.h"
-# include "./get_next_line.h"
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -34,6 +33,14 @@ typedef struct s_data
 	char	**env;
 	pid_t	pid;
 }	t_data;
+
+typedef struct s_read
+{
+	int		buffer_size;
+	int		position;
+	char	*buffer;
+	char	*new_buffer;
+}	t_read;
 
 //FT SPLIT
 
@@ -86,9 +93,14 @@ char	***ft_split_arg(int argc, char **argv);
 
 //HERE DOC
 
-void	read_and_write(char *limiter, int fd_hd);
+int		read_and_write(char *limiter, int fd_hd);
 int		ft_heredoc(t_data *data, char *limiter);
 int		heredoc_main(int argc, char **argv, t_data *data);
+
+//READ INPUT
+
+char	*read_input(void);
+char	*double_and_fill(int buffer_size, char *buffer, int position);
 
 //PROCESSES
 
@@ -106,6 +118,7 @@ void	test_access_absolute(char **command);
 
 int		execute(char **command, char **path, char **env);
 int		main(int argc, char **argv, char **env);
+void	free_pipes(t_data data);
 void	pipex_mult(t_data data, char ***commands, char **path);
 
 #endif

@@ -27,8 +27,7 @@ B_SRCS =	pipex_bonus.c \
 			access_bonus.c \
 			processes_bonus.c \
 			here_doc_bonus.c \
-			get_next_line.c \
-			get_next_line_utils.c
+			read_input_bonus.c
 B_SRCS_DIR	= srcs_bonus/
 B_SRCS_PATH	= $(addprefix $(SRCS_B_DIR), $(B_SRCS))
 
@@ -36,8 +35,7 @@ NAME	=	pipex
 B_NAME	=	pipex_bonus
 
 DEPS	=	pipex.h \
-			b_pipex.h \
-			get_next_line.h
+			b_pipex.h
 DEPS_DIR	= deps/
 DEPS_PATH	= $(addprefix $(DEPS_DIR), $(DEPS))
 
@@ -60,7 +58,7 @@ $(LIBFTPRINTF):
 	@$(MAKE) -C $(PF_DIR) --no-print-directory
 
 $(B_NAME): $(MAKEFILE) $(LIBFTPRINTF) $(B_OBJS_PATH) $(DEPS_PATH)
-	@$(CC) $(CFLAGS) $(B_OBJS_PATH) $(CFLAGS_PF) -o $(B_NAME)
+	@$(CC) $(CFLAGS) $(B_OBJS_PATH) $(CFLAGS_PF) -o $(B_NAME) -g
 
 $(NAME): $(MAKEFILE) $(LIBFTPRINTF) $(OBJS_PATH) $(DEPS_PATH)
 	@$(CC) $(CFLAGS) $(OBJS_PATH) $(CFLAGS_PF) -o $(NAME)
@@ -72,9 +70,6 @@ $(OBJS_DIR)%.o:	$(SRCS_DIR)%.c $(DEPS_PATH)
 $(B_OBJS_DIR)%.o: $(B_SRCS_DIR)%.c $(DEPS_PATH)
 		@mkdir -p $(B_OBJS_DIR)
 		${CC} $(CFLAGS) -c $< -o $@
-
-valgrind : ${OBJS_PATH}
-	$(CC) $(CFLAGS) $(OBJS_PATH) -o $(NAME).vgr -g
 
 clean_printf:
 	@$(MAKE) clean -C $(PF_DIR) --no-print-directory

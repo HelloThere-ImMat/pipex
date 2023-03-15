@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 14:28:25 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/10 14:28:28 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/15 18:04:36 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	child_process(t_data data, char ***commands, char **path, int cmd_i)
 		{
 			close(data.in);
 			close(data.out);
+			close_pipes(&data);
+			free_pipes(data);
 			error(0, commands, path);
 		}
 	}
