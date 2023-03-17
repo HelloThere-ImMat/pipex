@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:09:23 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/12 16:32:26 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/17 10:21:09 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	free_all(char ***commands, char **path);
 
 void	access_main(char ***commands, char **path);
 void	test_access(char **path, char **command);
-void	test_access_absolute(char **command);
+void	test_access_absolute(char **command, char **path);
 
 //PIPEX
 

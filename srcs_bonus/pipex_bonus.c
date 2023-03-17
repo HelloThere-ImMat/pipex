@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:00:48 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/15 17:58:15 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/17 10:30:15 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,8 @@ int	main(int argc, char **argv, char **env)
 	if (!commands)
 		return (1);
 	path = get_path(env);
-	if (!path)
-	{
-		free_all(commands, path);
-		return (1);
-	}
+	if (!path && env[0])
+		error(4, commands, path);
 	data.cmdnbr = get_cmd_nbr(commands);
 	access_main(commands, path);
 	pipex_mult(data, commands, path);

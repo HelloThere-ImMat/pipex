@@ -6,14 +6,19 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 15:01:30 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/08 18:00:53 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/17 10:25:53 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../deps/b_pipex.h"
 
-void	test_access_absolute(char **command)
+void	test_access_absolute(char **command, char **path)
 {
+	if (path == NULL && command[0][0] != '/')
+	{
+		ft_printf_fd(2, "command not found: %s\n", command[0]);
+		return ;
+	}
 	if (access(command[0], X_OK) == 0)
 		return ;
 	else
@@ -33,7 +38,7 @@ void	test_access(char **path, char **command)
 	}
 	if (path == NULL || command[0][0] == 47)
 	{
-		test_access_absolute(command);
+		test_access_absolute(command, path);
 		return ;
 	}
 	while (path[i])
