@@ -1,37 +1,63 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 00:30:40 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/12 16:50:07 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/17 13:00:33 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../deps/pipex.h"
+#include "../deps/b_pipex.h"
 
-int	check_arg(int argc, char **argv, t_data *data)
+void	free_all(char ***commands, char **path)
 {
-	if (argc != 5)
+	int	i;
+	int	j;
+
+	i = 0;
+	while (commands[i])
 	{
-		ft_printf_fd(2, "Arg error\n");
-		return (1);
+		j = 0;
+		while (commands[i][j])
+		{
+			free(commands[i][j]);
+			j++;
+		}
+		free(commands[i]);
+		i++;
 	}
-	data->in = open(argv[1], O_RDONLY);
-	if (data->in == -1)
+	free(commands);
+	i = 0;
+	if (path == NULL)
+		return ;
+	while (path[i] && ft_strlen_p(path[i]) != 0)
+		free(path[i++]);
+	free(path);
+}
+
+int	check_files(char *in, char *out, t_data *data, int heredoc)
+{
+	if (heredoc == 0)
 	{
-		if (access(argv[1], F_OK) == 0)
-			ft_printf_fd(2, "%s is not accessible\n", argv[1]);
-		else
-			ft_printf_fd(2, "%s no such file or directory\n", argv[1]);
-		data->in = open("/dev/null", O_RDONLY);
+		data->in = open(in, O_RDONLY);
+		if (data->in == -1)
+		{
+			if (access(in, F_OK) == 0)
+				ft_printf_fd(2, "%s is not accessible\n", in);
+			else
+				ft_printf_fd(2, "%s no such file or directory\n", in);
+			data->in = open("/dev/null", O_RDONLY);
+		}
+		data->out = open(out, O_RDWR | O_TRUNC);
 	}
-	data->out = open(argv[argc - 1], O_RDWR | O_TRUNC);
+	else
+		data->out = open(out, O_RDWR | O_APPEND);
 	if (data->out == -1)
 	{
-		data->out = open(argv[argc - 1], O_CREAT | O_RDWR, 0644);
+		data->out = open(out, O_CREAT | O_RDWR, 0644);
 		if (data->out == -1)
 		{
 			ft_printf_fd(2, "error while creating file\n");
@@ -41,92 +67,40 @@ int	check_arg(int argc, char **argv, t_data *data)
 	return (0);
 }
 
-char	***ft_split_arg(int argc, char **argv)
-{
-	char	***commands;
-	int		i;
-
-	commands = malloc(sizeof(char **) * argc - 2);
-	if (!commands)
-		return (NULL);
-	i = 2;
-	while (i < argc - 1)
-	{
-		commands[i - 2] = ft_split(argv[i], " ");
-		i++;
-	}
-	commands[i - 2] = NULL;
-	return (commands);
-}
-
-char	*get_trimed_path(char **env)
-{
-	int		i;
-	char	*trimed;
-
-	i = 0;
-	while (env[i])
-	{
-		if (ft_strncmp("PATH", env[i], 4) == 0)
-			break ;
-		i++;
-	}
-	trimed = trim_path(env[i]);
-	if (!trimed)
-		return (NULL);
-	return (trimed);
-}
-
-char	**path_error_free(char **path, int index)
+int	get_cmd_nbr(char ***commands)
 {
 	int	i;
 
 	i = 0;
-	while (i < index)
-	{
-		free(path[i]);
+	while (commands[i])
 		i++;
-	}
-	free(path);
-	return (NULL);
+	return (i);
 }
 
-char	**get_path(char **env)
+void	print_tab(char **path)
 {
-	int		i;
-	char	*trimed;
-	char	**path;
+	int	i;
 
-	if (!env[0])
-		return (NULL);
-	trimed = get_trimed_path(env);
-	path = ft_split(trimed, ":");
-	if (!path)
-		return (NULL);
-	free(trimed);
 	i = 0;
-	while (path[i])
+	while (path[i] && ft_strlen_p(path[i]) != 0)
 	{
-		path[i] = ft_strjoin(path[i], "/", 1);
-		if (!path[i])
-		{
-			path = path_error_free(path, i);
-			return (NULL);
-		}
+		ft_printf_fd(1, "%s\n", path[i]);
 		i++;
 	}
-	return (path);
+	return ;
 }
 
-//void	print_tab(char **path)
-//{
-//	int	i;
+int	**init_end_tab(t_data data)
+{
+	int	**end_tab;
+	int	i;
 
-//	i = 0;
-//	while (path[i] && ft_strlen_p(path[i]) != 0)
-//	{
-//		ft_printf_fd(1, "%s\n", path[i]);
-//		i++;
-//	}
-//	return ;
-//}
+	i = 0;
+	end_tab = malloc(sizeof(int *) * data.cmdnbr - 1);
+	while (i < data.cmdnbr - 1)
+	{
+		end_tab[i] = malloc(sizeof(int) * 2);
+		i++;
+	}
+	return (end_tab);
+}

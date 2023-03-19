@@ -1,43 +1,74 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils2.c                                           :+:      :+:    :+:   */
+/*   utils2_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/26 13:51:33 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/12 16:33:11 by mdorr            ###   ########.fr       */
+/*   Created: 2023/02/27 13:56:44 by mdorr             #+#    #+#             */
+/*   Updated: 2023/03/15 17:58:27 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../deps/pipex.h"
+#include "../deps/b_pipex.h"
 
-int	execute(char **command, char **path, char **env)
+char	**path_error_free(char **path, int index)
 {
 	int	i;
 
 	i = 0;
-	if (path == NULL || command[0][0] == 47)
+	while (i < index)
 	{
-		execve(command[0], command, NULL);
-		return (0);
+		free(path[i]);
+		i++;
 	}
-	while (path[i])
-	{
-		path[i] = ft_strjoin(path[i], command[0], 1);
-		if (execve(path[i], command, env) == -1)
-			i++;
-	}
-	return (1);
+	free(path);
+	return (NULL);
 }
 
-void	error_cmd(t_data data, char ***commands, char **path, int *end)
+char	*get_trimed_path(char **env)
 {
-	close(data.in);
-	close(data.out);
-	close(end[1]);
-	close(end[0]);
-	error(0, commands, path);
+	int		i;
+	char	*trimed;
+
+	i = 0;
+	while (env[i])
+	{
+		if (ft_strncmp("PATH", env[i], 4) == 0)
+			break ;
+		i++;
+	}
+	trimed = trim_path(env[i]);
+	if (!trimed)
+		return (NULL);
+	return (trimed);
+}
+
+char	**get_path(char **env)
+{
+	int		i;
+	char	*trimed;
+	char	**path;
+
+	if (!env[0])
+		return (NULL);
+	trimed = get_trimed_path(env);
+	path = ft_split(trimed, ":");
+	if (!path)
+		return (NULL);
+	free(trimed);
+	i = 0;
+	while (path[i])
+	{
+		path[i] = ft_strjoin(path[i], "/", 1);
+		if (!path[i])
+		{
+			path = path_error_free(path, i);
+			return (NULL);
+		}
+		i++;
+	}
+	return (path);
 }
 
 void	error(int type, char ***commands, char **path)
@@ -54,40 +85,19 @@ void	error(int type, char ***commands, char **path)
 	exit(EXIT_FAILURE);
 }
 
-void	wait_and_close(t_data data, int end[2])
-{
-	waitpid(-1, NULL, 0);
-	close(end[1]);
-	close(data.in);
-	close(end[0]);
-	close(data.out);
-}
-
-void	free_all(char ***commands, char **path)
+void	create_pipes(t_data *data, char ***commands, char **path)
 {
 	int	i;
-	int	j;
 
 	i = 0;
-	if (commands)
+	data->end_tab = init_end_tab(*data);
+	while (i < data->cmdnbr - 1)
 	{
-		while (commands[i])
+		if (pipe(data->end_tab[i]) == -1)
 		{
-			j = 0;
-			while (commands[i][j])
-			{
-				free(commands[i][j]);
-				j++;
-			}
-			free(commands[i]);
-			i++;
+			free(data->end_tab);
+			error(2, commands, path);
 		}
-		free(commands);
+		i++;
 	}
-	i = 0;
-	if (path == NULL)
-		return ;
-	while (path[i] && ft_strlen_p(path[i]) != 0)
-		free(path[i++]);
-	free(path);
 }

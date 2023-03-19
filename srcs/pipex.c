@@ -6,98 +6,86 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:00:48 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/12 16:50:26 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/19 14:56:52 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../deps/pipex.h"
+#include "../deps/b_pipex.h"
 
-void	child_process(t_data data, char ***commands, char **path, int end[2])
+int	execute(char **command, char **path, char **env)
 {
-	int	d1;
-	int	d2;
+	int	i;
 
-	if (!commands[0][0])
-		error_cmd(data, commands, path, end);
-	d1 = dup2(data.in, STDIN_FILENO);
-	d2 = dup2(end[1], STDOUT_FILENO);
-	if (d1 < 0 || d2 < 0)
-		error(3, commands, path);
-	close(end[0]);
-	if (!commands[0][0])
-		return ;
-	if (execute(commands[0], path, data.env) == 1)
+	i = 0;
+	if (path == NULL || command[0][0] == 47)
 	{
-		close(data.in);
-		close(data.out);
-		close(end[1]);
-		error(0, commands, path);
+		execve(command[0], command, NULL);
+		return (0);
 	}
+	while (path[i])
+	{
+		path[i] = ft_strjoin(path[i], command[0], 1);
+		if (execve(path[i], command, env) == -1)
+			i++;
+	}
+	return (1);
 }
 
-void	parent_process(t_data data, char ***commands, char **path, int end[2])
+void	free_pipes(t_data data)
 {
-	int	d1;
-	int	d2;
+	int	i;
 
-	if (!commands[1][0])
-		error_cmd(data, commands, path, end);
-	d1 = dup2(end[0], STDIN_FILENO);
-	d2 = dup2(data.out, STDOUT_FILENO);
-	if (d1 < 0 || d2 < 0)
-		error(3, commands, path);
-	close(end[1]);
-	if (!commands[1][0])
-		return ;
-	if (execute(commands[1], path, data.env) == 1)
-	{
-		close(data.in);
-		close(data.out);
-		close(end[0]);
-		error(0, commands, path);
-	}
+	i = 0;
+	while (i < data.cmdnbr - 1)
+		free(data.end_tab[i++]);
+	free(data.end_tab);
+	close(data.in);
+	close(data.out);
 }
 
-void	pipex(t_data data, char ***commands, char **path)
+void	pipex_mult(t_data data, char ***commands, char **path)
 {
-	int		end[2];
+	int	i;
 
-	if (pipe(end) == -1)
-		error(2, commands, path);
-	data.pid1 = fork();
-	if (data.pid1 < 0)
-		error(2, commands, path);
-	if (data.pid1 == 0)
-		child_process(data, commands, path, end);
-	if (data.pid1 > 0)
+	create_pipes(&data, commands, path);
+	i = 0;
+	while (i < data.cmdnbr)
 	{
-		data.pid2 = fork();
-		if (data.pid2 == 0)
-			parent_process(data, commands, path, end);
+		child_process(data, commands, path, i);
+		i++;
 	}
-	if (data.pid1 > 0 && data.pid2 > 0)
-		wait_and_close(data, end);
+	close_pipes(&data);
+	while (1)
+	{
+		if (waitpid(-1, NULL, 0) == -1)
+			break;
+	}
+	if (data.heredoc == 1)
+		unlink(".heredoc_tmp");
+	free_pipes(data);
+	free_all(commands, path);
 }
 
 int	main(int argc, char **argv, char **env)
 {
+	int		arg;
 	char	**path;
 	char	***commands;
 	t_data	data;
 
-	if (check_arg(argc, argv, &data) == 1)
-		return (1);
+	data.heredoc = 0;
 	data.env = env;
-	data.argv = argv;
-	path = NULL;
+	arg = check_arg(argc, argv, &data);
+	if (arg == 1)
+		return (1);
 	commands = ft_split_arg(argc, argv);
 	if (!commands)
-		error(4, commands, path);
+		return (1);
 	path = get_path(env);
 	if (!path && env[0])
 		error(4, commands, path);
+	data.cmdnbr = get_cmd_nbr(commands);
 	access_main(commands, path);
-	pipex(data, commands, path);
-	free_all(commands, path);
+	pipex_mult(data, commands, path);
 	return (0);
 }

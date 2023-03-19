@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   str_utils.c                                        :+:      :+:    :+:   */
+/*   b_str_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 13:03:25 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/12 16:30:18 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/02/27 16:21:47 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../deps/pipex.h"
+#include "../deps/b_pipex.h"
 
 char	*ft_strdup(const char *s)
 {
@@ -41,6 +41,8 @@ int	ft_strncmp(char *s1, char *s2, unsigned int n)
 	unsigned int	r;
 
 	r = 0;
+	if (!s1 || !s2)
+		return (-1);
 	while (s1[r] != '\0' && s2[r] != '\0' && r < n)
 	{
 		if (s1[r] != s2[r])

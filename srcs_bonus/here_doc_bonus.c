@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 14:18:41 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/15 17:10:02 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/19 15:18:19 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	read_and_write(char *limiter, int fd_hd)
 		if (ft_strncmp(limiter, line, len + 1) == 0)
 			break ;
 		write(fd_hd, line, ft_strlen(line));
+		write(fd_hd, "\n", 1);
 		free(line);
 	}
 	free(line);
