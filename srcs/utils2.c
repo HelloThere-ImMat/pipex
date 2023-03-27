@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 13:56:44 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/27 09:59:02 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/27 11:02:32 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	**path_error_free(char **path, int index)
 	int	i;
 
 	i = 0;
-	while (i < index)
+	while (i < index && path[i])
 	{
 		free(path[i]);
 		i++;

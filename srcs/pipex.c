@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:00:48 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/27 10:01:01 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/27 11:25:46 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,10 @@ void	pipex(t_data data, char ***commands, char **path)
 	i = 0;
 	while (i < data.cmdnbr)
 	{
+		ft_printf_fd(2, "%s\n", commands[i][0]);
 		child_process(data, commands, path, i);
 		i++;
+		ft_printf_fd(2, " i is :%d\n", i);
 	}
 	close_pipes(&data);
 	while (1)
@@ -83,6 +85,6 @@ int	main(int argc, char **argv, char **env)
 		error(4, commands, path);
 	data.cmdnbr = get_cmd_nbr(commands);
 	access_main(commands, path);
-	pipex_mult(data, commands, path);
+	pipex(data, commands, path);
 	return (0);
 }

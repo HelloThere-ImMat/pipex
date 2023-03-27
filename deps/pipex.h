@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:09:23 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/27 10:01:10 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/27 10:31:45 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,14 +110,14 @@ void	close_pipes(t_data *data);
 //ACCESS
 
 void	access_main(char ***commands, char **path);
-void	test_access(char **path, char **command);
-void	test_access_absolute(char **command, char **path);
+int		test_access(char **path, char **command);
+int		test_access_absolute(char **command, char **path);
 
 //PIPEX
 
 int		execute(char **command, char **path, char **env);
 int		main(int argc, char **argv, char **env);
 void	free_pipes(t_data data);
-void	pipex_mult(t_data data, char ***commands, char **path);
+void	pipex(t_data data, char ***commands, char **path);
 
 #endif
