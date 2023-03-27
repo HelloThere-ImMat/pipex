@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_input_bonus.c                                 :+:      :+:    :+:   */
+/*   read_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:08:36 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/15 17:19:08 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/27 09:58:51 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../deps/b_pipex.h"
+#include "../deps/pipex.h"
 
 char	*double_and_fill(int buffer_size, char *buffer, int position)
 {

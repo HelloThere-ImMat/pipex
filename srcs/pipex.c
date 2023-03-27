@@ -6,11 +6,11 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:00:48 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/19 14:56:52 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/27 10:01:01 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../deps/b_pipex.h"
+#include "../deps/pipex.h"
 
 int	execute(char **command, char **path, char **env)
 {
@@ -43,7 +43,7 @@ void	free_pipes(t_data data)
 	close(data.out);
 }
 
-void	pipex_mult(t_data data, char ***commands, char **path)
+void	pipex(t_data data, char ***commands, char **path)
 {
 	int	i;
 
@@ -60,8 +60,6 @@ void	pipex_mult(t_data data, char ***commands, char **path)
 		if (waitpid(-1, NULL, 0) == -1)
 			break;
 	}
-	if (data.heredoc == 1)
-		unlink(".heredoc_tmp");
 	free_pipes(data);
 	free_all(commands, path);
 }
@@ -73,7 +71,6 @@ int	main(int argc, char **argv, char **env)
 	char	***commands;
 	t_data	data;
 
-	data.heredoc = 0;
 	data.env = env;
 	arg = check_arg(argc, argv, &data);
 	if (arg == 1)

@@ -6,11 +6,11 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 15:17:55 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/19 14:46:04 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/27 09:59:16 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../deps/b_pipex.h"
+#include "../deps/pipex.h"
 
 int	check_arg(int argc, char **argv, t_data *data)
 {
