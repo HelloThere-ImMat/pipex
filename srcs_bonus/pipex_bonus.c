@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:00:48 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/27 10:01:45 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/27 11:42:30 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	pipex_mult(t_data data, char ***commands, char **path)
 	while (1)
 	{
 		if (waitpid(-1, NULL, 0) == -1)
-			break;
+			break ;
 	}
 	if (data.heredoc == 1)
 		unlink(".heredoc_tmp");
