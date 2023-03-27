@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:09:23 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/27 10:31:45 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/27 14:10:43 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ int		**init_end_tab(t_data data);
 //UTILS 2
 
 char	**path_error_free(char **path, int index);
-char	**get_path(char **env);
+char	**get_path(char **env, char ***commands);
 void	error(int type, char ***commands, char **path);
 void	create_pipes(t_data *data, char ***commands, char **path);
-char	*get_trimed_path(char **env);
+char	*get_trimed_path(char **env, char ***commands);
 
 //ARG UTILS
 

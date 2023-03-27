@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:09:23 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/17 10:24:47 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/27 15:48:49 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,10 @@ int		**init_end_tab(t_data data);
 //UTILS 2
 
 char	**path_error_free(char **path, int index);
-char	**get_path(char **env);
+char	**get_path(char **env, char ***commands);
 void	error(int type, char ***commands, char **path);
 void	create_pipes(t_data *data, char ***commands, char **path);
-char	*get_trimed_path(char **env);
+char	*get_trimed_path(char **env, char ***commands);
 
 //ARG UTILS
 
@@ -111,8 +111,8 @@ void	close_pipes(t_data *data);
 //ACCESS
 
 void	access_main(char ***commands, char **path);
-void	test_access(char **path, char **command);
-void	test_access_absolute(char **command, char **path);
+int		test_access(char **path, char **command);
+int		test_access_absolute(char **command, char **path);
 
 //PIPEX
 

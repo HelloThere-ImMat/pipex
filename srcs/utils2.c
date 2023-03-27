@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 13:56:44 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/27 11:02:32 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/27 14:12:20 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,31 @@ char	**path_error_free(char **path, int index)
 	return (NULL);
 }
 
-char	*get_trimed_path(char **env)
+char	*get_trimed_path(char **env, char ***commands)
 {
 	int		i;
+	int		j;
 	char	*trimed;
 
 	i = 0;
+	j = 0;
+	while (env[j])
+		j++;
 	while (env[i])
 	{
 		if (ft_strncmp("PATH", env[i], 4) == 0)
 			break ;
 		i++;
 	}
+	if (i == j)
+		return (NULL);
 	trimed = trim_path(env[i]);
 	if (!trimed)
-		return (NULL);
+		error(4, commands, NULL);
 	return (trimed);
 }
 
-char	**get_path(char **env)
+char	**get_path(char **env, char ***commands)
 {
 	int		i;
 	char	*trimed;
@@ -52,10 +58,12 @@ char	**get_path(char **env)
 
 	if (!env[0])
 		return (NULL);
-	trimed = get_trimed_path(env);
+	trimed = get_trimed_path(env, commands);
+	if (!trimed)
+		return (NULL);
 	path = ft_split(trimed, ":");
 	if (!path)
-		return (NULL);
+		error(4, commands, path);
 	free(trimed);
 	i = 0;
 	while (path[i])
@@ -64,7 +72,7 @@ char	**get_path(char **env)
 		if (!path[i])
 		{
 			path = path_error_free(path, i);
-			return (NULL);
+			error(4, commands, path);
 		}
 		i++;
 	}
