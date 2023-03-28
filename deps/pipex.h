@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:09:23 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/27 14:10:43 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/28 20:30:18 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ void	close_pipes(t_data *data);
 
 void	access_main(char ***commands, char **path);
 int		test_access(char **path, char **command);
+int		test_access2(char **path, char **command);
 int		test_access_absolute(char **command, char **path);
 
 //PIPEX

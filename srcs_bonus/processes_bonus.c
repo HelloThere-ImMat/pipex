@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 14:28:25 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/27 15:49:37 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/03/28 20:30:36 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	child_process(t_data data, char ***commands, char **path, int cmd_i)
 	data.pid = fork();
 	if (data.pid == 0)
 	{
-		if (!commands[cmd_i][0] || test_access(path, commands[cmd_i]) == 1)
+		if (!commands[cmd_i][0] || test_access2(path, commands[cmd_i]) == 1)
 			clean_exit(data, commands, path);
 		if (cmd_i == 0)
 			sub_dup(data.in, data.end_tab[cmd_i][1], commands, path);
