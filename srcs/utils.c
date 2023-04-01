@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 00:30:40 by mdorr             #+#    #+#             */
-/*   Updated: 2023/04/01 13:45:11 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/04/01 14:04:18 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,18 @@ void	free_all(char ***commands, char **path)
 	free(path);
 }
 
+int	no_out_file(char *out, t_data *data)
+{
+	data->out = open(out, O_CREAT | O_RDWR, 0644);
+	if (data->out == -1)
+	{
+		ft_printf_fd(2, "error while creating file\n");
+		close(data->in);
+		return (1);
+	}
+	return (0);
+}
+
 int	check_files(char *in, char *out, t_data *data, int heredoc)
 {
 	if (heredoc == 0)
@@ -56,15 +68,7 @@ int	check_files(char *in, char *out, t_data *data, int heredoc)
 	else
 		data->out = open(out, O_RDWR | O_APPEND);
 	if (data->out == -1)
-	{
-		data->out = open(out, O_CREAT | O_RDWR, 0644);
-		if (data->out == -1)
-		{
-			ft_printf_fd(2, "error while creating file\n");
-			close(data->in);
-			return (1);
-		}
-	}
+		return (no_out_file(out, data));
 	return (0);
 }
 
@@ -76,19 +80,6 @@ int	get_cmd_nbr(char ***commands)
 	while (commands[i])
 		i++;
 	return (i);
-}
-
-void	print_tab(char **path)
-{
-	int	i;
-
-	i = 0;
-	while (path[i] && ft_strlen_p(path[i]) != 0)
-	{
-		ft_printf_fd(1, "%s\n", path[i]);
-		i++;
-	}
-	return ;
 }
 
 int	**init_end_tab(t_data data)
