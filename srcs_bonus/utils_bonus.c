@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 00:30:40 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/17 13:00:33 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/04/01 13:45:38 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	check_files(char *in, char *out, t_data *data, int heredoc)
 		if (data->out == -1)
 		{
 			ft_printf_fd(2, "error while creating file\n");
+			close(data->in);
 			return (1);
 		}
 	}
