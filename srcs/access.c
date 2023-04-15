@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 15:01:30 by mdorr             #+#    #+#             */
-/*   Updated: 2023/04/01 13:04:30 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/04/15 16:48:27 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	test_access(char **path, char **command)
 		ft_printf_fd(2, "command not found : %s\n", command[0]);
 		return (EXIT_FAILURE);
 	}
-	if (path == NULL || command[0][0] == 47)
+	if (path == NULL || command[0][0] == 47 || command[0][0] == 46)
 	{
 		return (test_access_absolute(command, path));
 	}
@@ -74,7 +74,7 @@ int	test_access_np(char **path, char **command)
 	{
 		return (EXIT_FAILURE);
 	}
-	if (path == NULL || command[0][0] == 47)
+	if (path == NULL || command[0][0] == 47 || command[0][0] == 46)
 	{
 		return (test_access_absolute_np(command, path));
 	}

@@ -24,6 +24,7 @@ B_SRCS =	pipex_bonus.c \
 			str_utils2_bonus.c \
 			utils_bonus.c \
 			utils2_bonus.c \
+			utils3_bonus.c \
 			arg_utils_bonus.c \
 			ft_split_bonus.c \
 			ft_split2_bonus.c \

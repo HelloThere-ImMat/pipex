@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 00:30:40 by mdorr             #+#    #+#             */
-/*   Updated: 2023/04/01 14:28:47 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/04/15 17:56:54 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,23 @@ int	no_out_file(char *out, t_data *data)
 	return (0);
 }
 
+static int	check_out_file(char *out, t_data *data, int heredoc)
+{
+	if (heredoc == 0)
+		data->out = open(out, O_RDWR | O_TRUNC);
+	else
+		data->out = open(out, O_RDWR | O_APPEND);
+	if (access(out, F_OK) == 0 && data->out == -1)
+		ft_printf_fd(2, "%s is not accessible\n", out);
+	else if (data->out == -1)
+	{
+		data->out = open(out, O_CREAT | O_RDWR, 0644);
+		if (data->out == -1)
+			ft_printf_fd(2, "error while creating file");
+	}
+	return (0);
+}
+
 int	check_files(char *in, char *out, t_data *data, int heredoc)
 {
 	if (heredoc == 0)
@@ -62,38 +79,10 @@ int	check_files(char *in, char *out, t_data *data, int heredoc)
 				ft_printf_fd(2, "%s is not accessible\n", in);
 			else
 				ft_printf_fd(2, "%s no such file or directory\n", in);
-			data->in = open("/dev/null", O_RDONLY);
 		}
-		data->out = open(out, O_RDWR | O_TRUNC);
+		check_out_file(out, data, heredoc);
 	}
 	else
-		data->out = open(out, O_RDWR | O_APPEND);
-	if (data->out == -1)
-		return (no_out_file(out, data));
+		check_out_file(out, data, heredoc);
 	return (0);
-}
-
-int	get_cmd_nbr(char ***commands)
-{
-	int	i;
-
-	i = 0;
-	while (commands[i])
-		i++;
-	return (i);
-}
-
-int	**init_end_tab(t_data data)
-{
-	int	**end_tab;
-	int	i;
-
-	i = 0;
-	end_tab = malloc(sizeof(int *) * data.cmdnbr - 1);
-	while (i < data.cmdnbr - 1)
-	{
-		end_tab[i] = malloc(sizeof(int) * 2);
-		i++;
-	}
-	return (end_tab);
 }

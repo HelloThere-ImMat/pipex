@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:00:48 by mdorr             #+#    #+#             */
-/*   Updated: 2023/04/01 13:18:26 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/04/15 16:49:18 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	execute(char **command, char **path, char **env)
 	int	i;
 
 	i = 0;
-	if (path == NULL || command[0][0] == 47)
+	if (path == NULL || command[0][0] == 47 || command[0][0] == 46)
 	{
 		execve(command[0], command, NULL);
 		return (0);

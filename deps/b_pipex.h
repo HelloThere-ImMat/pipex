@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:09:23 by mdorr             #+#    #+#             */
-/*   Updated: 2023/04/01 13:19:41 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/04/15 17:57:50 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ void	writestr(int fd, const char *str);
 void	free_all(char ***commands, char **path);
 void	print_tab(char **path);
 int		check_files(char *in, char *out, t_data *data, int heredoc);
-int		get_cmd_nbr(char ***commands);
-int		**init_end_tab(t_data data);
 
 //UTILS 2
 
@@ -82,6 +80,11 @@ char	**get_path(char **env, char ***commands);
 void	error(int type, char ***commands, char **path);
 void	create_pipes(t_data *data, char ***commands, char **path);
 char	*get_trimed_path(char **env, char ***commands);
+
+//UTILS 3
+
+int		get_cmd_nbr(char ***commands);
+int		**init_end_tab(t_data data);
 
 //ARG UTILS
 
