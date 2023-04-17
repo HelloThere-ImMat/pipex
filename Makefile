@@ -1,4 +1,4 @@
-CC		=	clang
+CC		=	cc
 CFLAGS	=	-Wall -Werror -Wextra
 
 PF_DIR	= lib/

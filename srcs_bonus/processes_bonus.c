@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   processes_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mat <mat@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 14:28:25 by mdorr             #+#    #+#             */
-/*   Updated: 2023/04/15 17:49:59 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/04/17 15:54:02 by mat              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,9 @@
 void	sub_dup(int in, int out, char ***commands, char **path)
 {
 	int	d1;
-	int	d2;
 
 	d1 = dup2(in, STDIN_FILENO);
-	d2 = dup2(out, STDOUT_FILENO);
+	dup2(out, STDOUT_FILENO);
 	if (d1 < 0)
 		d1 = dup2(-1, STDIN_FILENO);
 	(void)commands;
@@ -40,8 +39,10 @@ void	close_pipes(t_data *data)
 
 void	clean_exit(t_data data, char ***commands, char **path)
 {
-	close(data.in);
-	close(data.out);
+	if (data.in != -1)
+		close(data.in);
+	if (data.out != -1)
+		close(data.out);
 	close_pipes(&data);
 	free_pipes(data);
 	error(0, commands, path);

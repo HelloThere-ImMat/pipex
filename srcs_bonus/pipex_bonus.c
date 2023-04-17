@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mat <mat@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:00:48 by mdorr             #+#    #+#             */
-/*   Updated: 2023/04/15 17:48:31 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/04/17 15:53:35 by mat              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,10 @@ void	free_pipes(t_data data)
 	while (i < data.cmdnbr - 1)
 		free(data.end_tab[i++]);
 	free(data.end_tab);
-	close(data.in);
-	close(data.out);
+	if (data.in != -1)
+		close(data.in);
+	if (data.out != -1)
+		close(data.out);
 }
 
 void	pipex_mult(t_data data, char ***commands, char **path)
@@ -75,6 +77,8 @@ int	main(int argc, char **argv, char **env)
 
 	data.heredoc = 0;
 	data.env = env;
+	data.in = -1;
+	data.in = -1;
 	arg = check_arg(argc, argv, &data);
 	if (arg == 1)
 		return (1);
