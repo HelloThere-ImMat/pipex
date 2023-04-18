@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 14:18:41 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/27 14:55:39 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/04/18 13:25:36 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ int	read_and_write(char *limiter, int fd_hd)
 	{
 		write(1, "heredoc> ", 9);
 		line = read_input();
-		if (ft_strncmp(limiter, line, len + 1) == 0)
+		if (ft_strlen(limiter) == ft_strlen(line)
+			&& ft_strncmp(limiter, line, len) == 0)
+			break ;
+		if (ft_strlen(line) == 0 && line[0] != '\n')
 			break ;
 		write(fd_hd, line, ft_strlen(line));
 		write(fd_hd, "\n", 1);

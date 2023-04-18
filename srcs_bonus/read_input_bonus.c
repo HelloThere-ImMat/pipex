@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:08:36 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/15 17:19:08 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/04/18 13:24:48 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,17 @@ char	*double_and_fill(int buffer_size, char *buffer, int position)
 	return (new_buffer);
 }
 
+char	*is_empty_line(char *buffer, int position)
+{
+	if (position == 0)
+	{
+		buffer[position] = '\n';
+		position++;
+	}
+	buffer[position] = '\0';
+	return (buffer);
+}
+
 char	*read_input(void)
 {
 	t_read	r;
@@ -43,8 +54,7 @@ char	*read_input(void)
 	{
 		if (r.buffer[r.position] == '\n')
 		{
-			r.buffer[r.position] = '\0';
-			return (r.buffer);
+			return (is_empty_line(r.buffer, r.position));
 		}
 		r.position++;
 		if (r.position == r.buffer_size - 1)

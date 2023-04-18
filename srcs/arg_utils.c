@@ -6,7 +6,7 @@
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 15:17:55 by mdorr             #+#    #+#             */
-/*   Updated: 2023/03/27 10:27:41 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/04/18 11:40:37 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	***ft_split_arg(int argc, char **argv)
 	char	***commands;
 	int		i;
 
-	commands = malloc(sizeof(char **) * argc - 2);
+	commands = malloc(sizeof(char **) * (argc - 2));
 	if (!commands)
 		return (NULL);
 	i = 2;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   b_str_utils.c                                      :+:      :+:    :+:   */
+/*   str_utils_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdorr <mdorr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 13:03:25 by mdorr             #+#    #+#             */
-/*   Updated: 2023/02/27 16:21:47 by mdorr            ###   ########.fr       */
+/*   Updated: 2023/04/18 11:49:31 by mdorr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_strdup(const char *s)
 		return (NULL);
 	while (s[len])
 		len++;
-	dest = malloc(sizeof(char) * len + 1);
+	dest = malloc(sizeof(char) * (len + 1));
 	if (!dest)
 		return (NULL);
 	i = 0;
@@ -81,7 +81,7 @@ char	*trim_path(char *path)
 	i = 5;
 	j = 0;
 	len = ft_strlen_p(path);
-	trim = malloc(sizeof(char) * len - 4);
+	trim = malloc(sizeof(char) * (len - 4));
 	if (trim == NULL)
 		return (NULL);
 	while (path[i])
